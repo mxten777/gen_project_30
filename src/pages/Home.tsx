@@ -12,12 +12,12 @@ const Home: React.FC = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-lime-400 to-indigo-400 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
         </div>
 
-        <div className="relative z-10 container mx-auto px-6 text-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-tight max-w-5xl mx-auto break-keep px-4"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-tight max-w-5xl mx-auto break-keep"
           >
             운전은 <span className="bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">안전</span>,{' '}
             합격은 <span className="bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">결과</span>로 증명합니다
@@ -26,7 +26,7 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed break-keep px-4"
+            className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed break-keep"
           >
             <span className="whitespace-nowrap">광연자동차운전전문학원</span> - 국내 최고 수준의 운전 교육으로 안전 운전과 합격을 동시에 이루세요
           </motion.p>
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center px-4"
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-2xl mx-auto"
           >
             <button className="flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-2xl bg-gradient-to-r from-indigo-500 via-sky-500 to-lime-400 text-white shadow-xl hover:shadow-glow hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-4 focus:ring-sky-200 focus:ring-offset-2 transition-all duration-300 will-change-transform relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700">
               📞 상담 예약하기
@@ -47,17 +47,17 @@ const Home: React.FC = () => {
       </section>
 
       {/* Key Strengths - Glass Cards */}
-      <section className="py-24 px-6">
-        <div className="container mx-auto">
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-16 px-4"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-16"
           >
             왜 광연자동차운전전문학원을 선택해야 할까요?
           </motion.h2>
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {[
               { title: '전문 강사', desc: '20년 이상 경력의 전문 강사진', icon: '👨‍🏫' },
               { title: '최신 코스', desc: '개정된 교통 법규 반영 교육', icon: '📚' },
@@ -81,17 +81,17 @@ const Home: React.FC = () => {
       </section>
 
       {/* Course CTA - Gradient Cards */}
-      <section className="py-24 px-6">
-        <div className="container mx-auto text-center">
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-16 px-4"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-16"
           >
             대표 교육 과정
           </motion.h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {[
               { name: '1종 대형면허', desc: '프로 운전자를 위한 전문 과정', icon: '🚛', gradient: 'from-indigo-100 via-sky-100 to-lime-100' },
               { name: '2종 보통면허', desc: '일반 운전면허 취득 과정', icon: '🚗', gradient: 'from-sky-100 via-lime-100 to-indigo-100' },
@@ -117,21 +117,21 @@ const Home: React.FC = () => {
       </section>
 
       {/* Statistics - Glass Dark */}
-      <section className="py-24 px-6 relative overflow-hidden">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Gradient Background */}
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-sky-500 to-lime-400" />
         <div className="absolute inset-0 bg-black/20" />
         
-        <div className="relative container mx-auto">
+        <div className="relative max-w-7xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-16 text-white px-4"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-16 text-white"
           >
             신뢰할 수 있는 실적
           </motion.h2>
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {[
               { number: '95%', label: '합격률', desc: '높은 합격률로 검증된 교육' },
               { number: '20+', label: '년 경력', desc: '20년 이상의 전문 교육 경험' },
@@ -155,22 +155,22 @@ const Home: React.FC = () => {
       </section>
 
       {/* Final CTA - Premium Glass */}
-      <section className="py-24 px-6">
-        <div className="container mx-auto text-center">
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl p-8 sm:p-12"
+            className="max-w-4xl mx-auto rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl p-6 sm:p-8 lg:p-12"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
               지금 바로 <span className="bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">운전면허</span> 도전하세요
             </h2>
-            <p className="text-base sm:text-lg text-gray-700 dark:text-gray-200 mb-10 max-w-2xl mx-auto px-4">
+            <p className="text-base sm:text-lg text-gray-700 dark:text-gray-200 mb-10 max-w-2xl mx-auto">
               전문 강사진과 최신 교육 시스템으로 안전 운전과 합격을 동시에 이루세요.
               무료 상담을 통해 맞춤 교육 과정을 안내받으실 수 있습니다.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-2xl mx-auto">
               <button className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-2xl bg-gradient-to-r from-indigo-500 via-sky-500 to-lime-400 text-white shadow-xl hover:shadow-glow hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-4 focus:ring-sky-200 focus:ring-offset-2 transition-all duration-300 will-change-transform relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700">
                 📞 무료 상담 예약
               </button>

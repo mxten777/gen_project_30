@@ -92,12 +92,12 @@ const Contact: React.FC = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-sky-300/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
         </div>
 
-        <div className="relative container mx-auto px-6 py-24 text-center z-10">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center z-10">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep px-4"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
           >
             전문 상담으로<br />
             맞춤 교육을 시작하세요
@@ -114,7 +114,7 @@ const Contact: React.FC = () => {
         </div>
       </section>
 
-      <div className="container mx-auto px-6 py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="max-w-4xl mx-auto">
           {/* 상담 신청 폼 */}
           <motion.div
@@ -123,7 +123,7 @@ const Contact: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="mb-16"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4">온라인 상담 신청</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">온라인 상담 신청</h2>
             <div className="max-w-2xl mx-auto">
               <form
                 onSubmit={handleSubmit}

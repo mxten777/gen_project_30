@@ -9,8 +9,8 @@ const Footer: React.FC = () => {
         <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-sky-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
       </div>
 
-      <div className="relative container mx-auto max-w-7xl">
-        <div className="grid md:grid-cols-4 gap-8 mb-12">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* 학원 정보 */}
           <div>
             <h3 className="text-xl sm:text-2xl font-bold mb-4 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent whitespace-nowrap">
