@@ -17,18 +17,17 @@ const Location: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
           >
-            편리한 교통으로<br />
-            쉽게 찾아오세요
+            편리한 교통으로 쉽게 찾아오세요
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed break-keep"
           >
-            송파구 문정동에 위치한 광연자동차운전전문학원입니다.
+            <span className="whitespace-nowrap">송파구 문정동</span>에 위치한 <span className="whitespace-nowrap">광연자동차운전전문학원</span>입니다.{' '}
             전 지역 셔틀버스 운행으로 편리하게 방문하실 수 있습니다.
           </motion.p>
         </div>

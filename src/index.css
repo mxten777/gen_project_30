@@ -33,7 +33,7 @@
   }
 }
 
-/* 타이포그래피 안티알리아싱 */
+/* 타이포그래피 안티알리아싱 & 한글 줄바꿈 최적화 */
 @layer base {
   * {
     -webkit-font-smoothing: antialiased;
@@ -43,10 +43,25 @@
   html {
     font-feature-settings: 'kern', 'liga', 'calt';
     font-family: 'Inter', 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    /* 한글 단어 줄바꿈 최적화 */
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   body {
     @apply bg-gradient-to-br from-slate-50 via-sky-50 to-lime-50 dark:from-gray-900 dark:to-black;
+  }
+
+  /* 한글 텍스트 줄바꿈 최적화 */
+  p, h1, h2, h3, h4, h5, h6, span, div {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  /* 긴 영문 URL이나 코드는 강제 줄바꿈 */
+  code, pre, .break-words {
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 }
 

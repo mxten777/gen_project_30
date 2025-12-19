@@ -55,17 +55,17 @@ const Process: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
           >
-            쉽고 빠른 운전면허 취득 과정
+            쉽고 빠른 운전면허 취듍 과정
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed break-keep"
           >
-            체계적인 5단계 교육 시스템으로 누구나 빠르고 저렴하게 운전면허를 취득할 수 있습니다.
+            체계적인 5단계 교육 시스템으로 누구나 빠르고 저렴하게 운전면허를 취듍할 수 있습니다.{' '}
             친절한 서비스로 처음 운전면허를 취득하시는 분들도 안심하고 교육받으실 수 있습니다.
           </motion.p>
         </div>

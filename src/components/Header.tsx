@@ -41,7 +41,7 @@ const Header: React.FC = () => {
             <div className="text-3xl transform group-hover:scale-110 transition-transform duration-300">
               🚗
             </div>
-            <span className="text-xl md:text-2xl font-extrabold bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent group-hover:from-indigo-700 group-hover:via-sky-700 group-hover:to-lime-700 transition-all duration-300">
+            <span className="text-lg sm:text-xl md:text-2xl font-extrabold bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent group-hover:from-indigo-700 group-hover:via-sky-700 group-hover:to-lime-700 transition-all duration-300 whitespace-nowrap">
               광연운전전문학원
             </span>
           </Link>

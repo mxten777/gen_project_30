@@ -17,18 +17,18 @@ const About: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
           >
-            광연자동차운전전문학원을<br />
-            소개합니다
+            <span className="whitespace-nowrap">광연자동차운전전문학원</span>을 소개합니다
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed break-keep"
           >
-            저희 운전학원의 모토는 <span className="font-bold">"빠르게, 저렴하게, 친절하게"</span> 입니다.
+            저희 운전학원의 모토는{' '}
+            <span className="font-bold whitespace-nowrap">"빠르게, 저렴하게, 친절하게"</span> 입니다.{' '}
             최고 수준의 운전 교육 서비스로 여러분의 운전면허 취득을 지원합니다.
           </motion.p>
         </div>
@@ -92,12 +92,13 @@ const About: React.FC = () => {
           >
             <div className="text-center mb-8">
               <div className="text-6xl mb-6 animate-float">🎯</div>
-              <h3 className="text-3xl md:text-4xl font-bold text-indigo-700 dark:text-sky-300 mb-6">"빠르게, 저렴하게, 친절하게"</h3>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-indigo-700 dark:text-sky-300 mb-6 break-keep">"빠르게, 저렴하게, 친절하게"</h3>
             </div>
-            <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-200 text-center max-w-3xl mx-auto">
-              저희 운전학원의 모토는 <span className="font-bold text-indigo-600 dark:text-sky-400">"빠르게, 저렴하게, 친절하게"</span> 입니다.<br />
-              <span className="font-semibold">빠르게</span>란 운전면허취득기간을 최단기간으로 단축시키는 노력을 하고있으며,<br />
-              <span className="font-semibold">저렴하게</span>란 교육수강비를 낮게 책정하여 많은 분들이 교육을 받는데에 부담이 없도록 노력하고 있으며,<br />
+            <p className="text-base sm:text-lg leading-relaxed text-gray-700 dark:text-gray-200 text-center max-w-3xl mx-auto break-keep">
+              저희 운전학원의 모토는{' '}
+              <span className="font-bold text-indigo-600 dark:text-sky-400 whitespace-nowrap">"빠르게, 저렴하게, 친절하게"</span> 입니다.{' '}
+              <span className="font-semibold">빠르게</span>란 운전면허취득기간을 최단기간으로 단축시키는 노력을 하고있으며,{' '}
+              <span className="font-semibold">저렴하게</span>란 교육수강비를 낮게 책정하여 많은 분들이 교육을 받는데에 부담이 없도록 노력하고 있으며,{' '}
               <span className="font-semibold">친절하게</span>란 수강생여러분의 교육시간을 친절하며 상냥하게 하여 좀 더 나은 교육환경을 만들어 드립니다.
             </p>
           </motion.div>

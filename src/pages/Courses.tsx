@@ -60,7 +60,7 @@ const Courses: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
           >
             맞춤형 운전 교육 과정
           </motion.h1>
@@ -68,9 +68,9 @@ const Courses: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed break-keep"
           >
-            각자의 상황과 목표에 맞는 최적의 교육 과정을 선택하세요.
+            각자의 상황과 목표에 맞는 최적의 교육 과정을 선택하세요.{' '}
             저렴한 가격과 친절한 서비스로 최고의 결과를 약속합니다.
           </motion.p>
         </div>

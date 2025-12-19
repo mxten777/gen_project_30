@@ -13,21 +13,21 @@ const Footer: React.FC = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-12">
           {/* 학원 정보 */}
           <div>
-            <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">
+            <h3 className="text-xl sm:text-2xl font-bold mb-4 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent whitespace-nowrap">
               광연자동차운전전문학원
             </h3>
-            <p className="text-gray-700 dark:text-gray-200 mb-4 leading-relaxed">
-              안전 운전 교육의 리더,<br />
-              <span className="font-semibold text-indigo-600 dark:text-sky-400">20년 이상의 전통과 신뢰</span>
+            <p className="text-sm sm:text-base text-gray-700 dark:text-gray-200 mb-4 leading-relaxed break-keep">
+              안전 운전 교육의 리더,{' '}
+              <span className="font-semibold text-indigo-600 dark:text-sky-400 whitespace-nowrap">20년 이상의 전통과 신뢰</span>
             </p>
-            <div className="space-y-2 text-gray-600 dark:text-gray-300">
-              <p className="flex items-center gap-2">
+            <div className="space-y-2 text-sm sm:text-base text-gray-600 dark:text-gray-300">
+              <p className="flex items-center gap-2 break-keep">
                 <span className="text-lg">📍</span>
-                서울특별시 송파구 문정동
+                <span className="whitespace-nowrap">서울특별시 송파구 문정동</span>
               </p>
               <p className="flex items-center gap-2">
                 <span className="text-lg">📞</span>
-                <a href="tel:02-481-6000" className="hover:text-indigo-600 dark:hover:text-sky-400 transition-colors font-medium">
+                <a href="tel:02-481-6000" className="hover:text-indigo-600 dark:hover:text-sky-400 transition-colors font-medium whitespace-nowrap">
                   02-481-6000
                 </a>
               </p>
