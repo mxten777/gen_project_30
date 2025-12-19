@@ -55,7 +55,7 @@ const Process: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep px-4"
           >
             쉽고 빠른 운전면허 취듍 과정
           </motion.h1>
@@ -77,7 +77,7 @@ const Process: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4"
         >
           5단계 교육 시스템
         </motion.h2>
@@ -123,7 +123,7 @@ const Process: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4"
           >
             교육 지원 시스템
           </motion.h2>
@@ -153,7 +153,7 @@ const Process: React.FC = () => {
                 className="text-center p-8 rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl hover:shadow-glow hover:scale-[1.03] hover:-translate-y-2 transition-all duration-500 will-change-transform"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="text-5xl mb-4 animate-float" style={{ animationDelay: `${index * 0.5}s` }}>{item.icon}</div>
+                <div className="text-4xl sm:text-5xl mb-4 animate-float" style={{ animationDelay: `${index * 0.5}s` }}>{item.icon}</div>
                 <h3 className="text-xl font-bold mb-3 text-indigo-700 dark:text-sky-300">{item.title}</h3>
                 <p className="text-base text-gray-600 dark:text-gray-300">{item.desc}</p>
               </motion.div>
@@ -168,7 +168,7 @@ const Process: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center mt-24 max-w-4xl mx-auto rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl p-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4">
             지금 바로 운전면허 도전하세요
           </h2>
           <p className="text-lg text-gray-700 dark:text-gray-200 mb-10 max-w-2xl mx-auto">

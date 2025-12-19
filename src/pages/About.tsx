@@ -17,7 +17,7 @@ const About: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep px-4"
           >
             <span className="whitespace-nowrap">광연자동차운전전문학원</span>을 소개합니다
           </motion.h1>
@@ -41,7 +41,7 @@ const About: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4"
           >
             학원 연혁
           </motion.h2>
@@ -80,7 +80,7 @@ const About: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4"
           >
             교육 철학
           </motion.h2>
@@ -91,8 +91,8 @@ const About: React.FC = () => {
             className="max-w-4xl mx-auto rounded-3xl bg-gradient-to-br from-indigo-100 via-sky-100 to-lime-100 dark:from-white/10 dark:to-white/5 border-2 border-white/30 shadow-xl backdrop-blur-xl p-12 hover:shadow-glow hover:scale-[1.02] transition-all duration-500"
           >
             <div className="text-center mb-8">
-              <div className="text-6xl mb-6 animate-float">🎯</div>
-              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-indigo-700 dark:text-sky-300 mb-6 break-keep">"빠르게, 저렴하게, 친절하게"</h3>
+              <div className="text-4xl sm:text-5xl md:text-6xl mb-6 animate-float">🎯</div>
+              <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-indigo-700 dark:text-sky-300 mb-6 break-keep">"빠르게, 저렴하게, 친절하게"</h3>
             </div>
             <p className="text-base sm:text-lg leading-relaxed text-gray-700 dark:text-gray-200 text-center max-w-3xl mx-auto break-keep">
               저희 운전학원의 모토는{' '}
@@ -110,7 +110,7 @@ const About: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4"
           >
             최첨단 교육 환경
           </motion.h2>
@@ -128,7 +128,7 @@ const About: React.FC = () => {
               >
                 <div className="aspect-video bg-gradient-to-br from-indigo-100 via-sky-100 to-lime-100 dark:from-white/10 dark:to-white/5 flex items-center justify-center p-8">
                   <div className="text-center">
-                    <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-500">{item.icon}</div>
+                    <div className="text-4xl sm:text-5xl md:text-6xl mb-4 group-hover:scale-110 transition-transform duration-500">{item.icon}</div>
                     <div className="text-2xl font-bold text-indigo-700 dark:text-sky-300 mb-2">{item.title}</div>
                     <div className="text-base text-gray-600 dark:text-gray-300">{item.desc}</div>
                   </div>
@@ -145,7 +145,7 @@ const About: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4"
           >
             공식 인증 및 지정
           </motion.h2>
@@ -163,7 +163,7 @@ const About: React.FC = () => {
                 className="text-center p-8 rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl hover:shadow-glow hover:scale-[1.03] hover:-translate-y-2 transition-all duration-500 will-change-transform"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="text-5xl mb-4 animate-float" style={{ animationDelay: `${index * 0.5}s` }}>{cert.icon}</div>
+                <div className="text-4xl sm:text-5xl mb-4 animate-float" style={{ animationDelay: `${index * 0.5}s` }}>{cert.icon}</div>
                 <h3 className="text-xl font-bold mb-3 text-indigo-700 dark:text-sky-300">{cert.title}</h3>
                 <p className="text-base text-gray-600 dark:text-gray-300">{cert.desc}</p>
               </motion.div>

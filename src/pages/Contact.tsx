@@ -97,7 +97,7 @@ const Contact: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep px-4"
           >
             전문 상담으로<br />
             맞춤 교육을 시작하세요
@@ -106,7 +106,7 @@ const Contact: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed break-keep"
           >
             궁금한 점이 있으시면 언제든 문의해 주세요.
             20년 경력의 전문 상담사가 친절하고 자세하게 안내해 드립니다.
@@ -123,7 +123,7 @@ const Contact: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">온라인 상담 신청</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4">온라인 상담 신청</h2>
             <div className="max-w-2xl mx-auto">
               <form
                 onSubmit={handleSubmit}
@@ -275,7 +275,7 @@ const Contact: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">다른 방법으로 문의하기</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4">다른 방법으로 문의하기</h2>
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
@@ -327,20 +327,20 @@ const Contact: React.FC = () => {
             className="mt-16 text-center max-w-3xl mx-auto"
           >
             <div className="rounded-2xl bg-gradient-to-br from-indigo-100 via-sky-100 to-lime-100 dark:from-white/10 dark:to-white/5 border-2 border-white/30 shadow-xl p-8 hover:shadow-glow hover:scale-[1.02] transition-all duration-500">
-              <h3 className="text-3xl font-bold mb-6 text-indigo-700 dark:text-sky-300">상담 예약 혜택</h3>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 text-indigo-700 dark:text-sky-300">상담 예약 혜택</h3>
               <div className="grid md:grid-cols-3 gap-6 text-center">
                 <div>
-                  <div className="text-3xl mb-3 animate-float">💰</div>
+                  <div className="text-2xl sm:text-3xl mb-3 animate-float">💰</div>
                   <div className="font-semibold text-indigo-700 dark:text-sky-300 text-lg mb-1">저렴한 교육비</div>
                   <div className="text-sm text-gray-700 dark:text-gray-200">합리적인 가격으로<br />최고의 교육 제공</div>
                 </div>
                 <div>
-                  <div className="text-3xl mb-3 animate-float" style={{ animationDelay: '0.5s' }}>🚌</div>
+                  <div className="text-2xl sm:text-3xl mb-3 animate-float" style={{ animationDelay: '0.5s' }}>🚌</div>
                   <div className="font-semibold text-indigo-700 dark:text-sky-300 text-lg mb-1">셔틀버스 운영</div>
                   <div className="text-sm text-gray-700 dark:text-gray-200">전 지역 셔틀버스<br />편리한 통학</div>
                 </div>
                 <div>
-                  <div className="text-3xl mb-3 animate-float" style={{ animationDelay: '1s' }}>😊</div>
+                  <div className="text-2xl sm:text-3xl mb-3 animate-float" style={{ animationDelay: '1s' }}>😊</div>
                   <div className="font-semibold text-indigo-700 dark:text-sky-300 text-lg mb-1">친절한 서비스</div>
                   <div className="text-sm text-gray-700 dark:text-gray-200">친절하고 상냥한<br />교육 진행</div>
                 </div>

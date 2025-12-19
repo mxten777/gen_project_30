@@ -60,7 +60,7 @@ const Courses: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep px-4"
           >
             맞춤형 운전 교육 과정
           </motion.h1>
@@ -143,7 +143,7 @@ const Courses: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4"
           >
             교육 과정 특징
           </motion.h2>
@@ -173,7 +173,7 @@ const Courses: React.FC = () => {
                 className="text-center p-8 rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl hover:shadow-glow hover:scale-[1.03] hover:-translate-y-2 transition-all duration-500 will-change-transform"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="text-5xl mb-4 animate-float" style={{ animationDelay: `${index * 0.5}s` }}>{item.icon}</div>
+                <div className="text-4xl sm:text-5xl mb-4 animate-float" style={{ animationDelay: `${index * 0.5}s` }}>{item.icon}</div>
                 <h3 className="text-xl font-bold mb-3 text-indigo-700 dark:text-sky-300">{item.title}</h3>
                 <p className="text-base text-gray-600 dark:text-gray-300">{item.desc}</p>
               </motion.div>

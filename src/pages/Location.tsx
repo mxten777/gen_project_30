@@ -17,7 +17,7 @@ const Location: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep px-4"
           >
             편리한 교통으로 쉽게 찾아오세요
           </motion.h1>
@@ -41,12 +41,12 @@ const Location: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">학원 위치</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-8 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4">학원 위치</h2>
 
             {/* 지도 영역 */}
             <div className="rounded-2xl bg-gradient-to-br from-indigo-100 via-sky-100 to-lime-100 dark:from-white/10 dark:to-white/5 h-96 mb-8 shadow-xl flex items-center justify-center border-2 border-white/30 hover:shadow-glow transition-all duration-500">
               <div className="text-center">
-                <div className="text-6xl mb-4 animate-float">📍</div>
+                <div className="text-5xl sm:text-6xl mb-4 animate-float">📍</div>
                 <div className="text-2xl font-bold text-indigo-700 dark:text-sky-300 mb-2">지도 API 연동 예정</div>
                 <div className="text-base text-gray-600 dark:text-gray-300">실제 위치 정보가 표시됩니다</div>
               </div>
@@ -83,7 +83,7 @@ const Location: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">교통편 안내</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-8 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4">교통편 안내</h2>
 
             <div className="space-y-6">
               {[
@@ -165,7 +165,7 @@ const Location: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="mt-24"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">편의 시설 및 접근성</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4">편의 시설 및 접근성</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {[
               {
@@ -225,7 +225,7 @@ const Location: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center mt-24 max-w-4xl mx-auto rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl p-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4">
             방문 예약 및 상담 안내
           </h2>
           <p className="text-lg text-gray-700 dark:text-gray-200 mb-10 max-w-2xl mx-auto">

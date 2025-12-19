@@ -31,17 +31,17 @@ const Header: React.FC = () => {
         : 'bg-white/90 dark:bg-black/90 backdrop-blur-xl border-b border-white/20 dark:border-white/5 shadow-md'
       }
     `}>
-      <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* 로고 - Premium Gradient */}
           <Link 
             to="/" 
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-1 sm:gap-2 group"
           >
-            <div className="text-3xl transform group-hover:scale-110 transition-transform duration-300">
+            <div className="text-2xl sm:text-3xl transform group-hover:scale-110 transition-transform duration-300">
               🚗
             </div>
-            <span className="text-lg sm:text-xl md:text-2xl font-extrabold bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent group-hover:from-indigo-700 group-hover:via-sky-700 group-hover:to-lime-700 transition-all duration-300 whitespace-nowrap">
+            <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-extrabold bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent group-hover:from-indigo-700 group-hover:via-sky-700 group-hover:to-lime-700 transition-all duration-300 whitespace-nowrap">
               광연운전전문학원
             </span>
           </Link>
