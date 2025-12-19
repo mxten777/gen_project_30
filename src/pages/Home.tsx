@@ -41,20 +41,22 @@ const Home: React.FC = () => {
         setShowPopup(false);
       }, 20000); // 20초 후 자동 닫기
 
-      // 카운트다운 업데이트
-      const countdownInterval = setInterval(() => {
+      // 카운트다운 업데이트 (setTimeout 체인으로 성능 최적화)
+      let countdownTimer: number;
+      const updateCountdown = () => {
         setCountdown((prev) => {
-          if (prev <= 1) {
-            clearInterval(countdownInterval);
-            return 0;
+          if (prev > 1) {
+            countdownTimer = window.setTimeout(updateCountdown, 1000);
+            return prev - 1;
           }
-          return prev - 1;
+          return 0;
         });
-      }, 1000);
+      };
+      updateCountdown();
 
       return () => {
         clearTimeout(autoCloseTimer);
-        clearInterval(countdownInterval);
+        if (countdownTimer) clearTimeout(countdownTimer);
       };
     }
   }, [showPopup]);
@@ -105,7 +107,7 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold mb-4 sm:mb-6 leading-tight max-w-5xl mx-auto break-keep mobile-text-scale"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-4 sm:mb-6 leading-tight max-w-5xl mx-auto break-keep"
           >
             운전은 <span className="bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">안전</span>,{' '}
             합격은 <span className="bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">결과</span>로 증명합니다
@@ -496,12 +498,9 @@ const Home: React.FC = () => {
             >
               전문 강사진과 최신 교육 시스템으로 안전 운전과 합격을 동시에 이루세요.
               <br />
-              <motion.span
-                className="font-semibold text-indigo-600 dark:text-sky-400"
-                whileHover={{ scale: 1.05 }}
-              >
+              <span className="font-semibold text-indigo-600 dark:text-sky-400">
                 무료 상담을 통해 맞춤 교육 과정을 안내받으실 수 있습니다.
-              </motion.span>
+              </span>
             </motion.p>
             <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-2xl mx-auto relative z-10"

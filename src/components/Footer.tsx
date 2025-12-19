@@ -89,18 +89,9 @@ const Footer: React.FC = () => {
               whileHover={{ scale: 1.02 }}
             >
               안전 운전 교육의 리더,{' '}
-              <motion.span
-                className="font-bold text-indigo-600 dark:text-sky-400 whitespace-nowrap relative"
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
+              <span className="font-bold text-indigo-600 dark:text-sky-400 whitespace-nowrap">
                 20년 이상의 전통과 신뢰
-                <motion.div
-                  className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 via-sky-500/20 to-lime-400/20 rounded-lg blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                />
-              </motion.span>
+              </span>
             </motion.p>
             <div className="space-y-4 text-sm sm:text-base text-gray-600 dark:text-gray-300">
               <motion.p
@@ -108,13 +99,7 @@ const Footer: React.FC = () => {
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <motion.span
-                  className="text-2xl group-hover/item:animate-bounce"
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  📍
-                </motion.span>
+                <span className="text-2xl">📍</span>
                 <span className="whitespace-nowrap font-medium">서울특별시 송파구 문정동</span>
               </motion.p>
               <motion.p
@@ -122,13 +107,7 @@ const Footer: React.FC = () => {
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <motion.span
-                  className="text-2xl group-hover/item:animate-pulse"
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  📞
-                </motion.span>
+                <span className="text-2xl">📞</span>
                 <a
                   href="tel:02-481-6000"
                   className="hover:text-indigo-600 dark:hover:text-sky-400 transition-all duration-300 font-bold text-lg hover:scale-105 inline-block"
@@ -370,18 +349,9 @@ const Footer: React.FC = () => {
               whileHover={{ scale: 1.02 }}
             >
               © 2025{' '}
-              <motion.span
-                className="font-bold text-indigo-600 dark:text-sky-400 relative"
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
+              <span className="font-bold text-indigo-600 dark:text-sky-400">
                 광연자동차운전전문학원
-                <motion.div
-                  className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 via-sky-500/20 to-lime-400/20 rounded-lg blur-lg opacity-0"
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.span>
+              </span>
               . All rights reserved.
             </motion.p>
             <motion.div
