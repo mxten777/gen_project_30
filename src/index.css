@@ -46,10 +46,17 @@
     /* 한글 단어 줄바꿈 최적화 */
     word-break: keep-all;
     overflow-wrap: break-word;
+    /* 수평 스크롤 방지 */
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   body {
     @apply bg-gradient-to-br from-slate-50 via-sky-50 to-lime-50 dark:from-gray-900 dark:to-black;
+    /* 수평 스크롤 방지 */
+    overflow-x: hidden;
+    max-width: 100vw;
+    position: relative;
   }
 
   /* 한글 텍스트 줄바꿈 최적화 */
