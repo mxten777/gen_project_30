@@ -8,6 +8,7 @@ import Courses from './pages/Courses';
 import Process from './pages/Process';
 import Contact from './pages/Contact';
 import Location from './pages/Location';
+import Registration from './pages/Registration';
 import './App.css';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Route path="/process" element={<Process />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/location" element={<Location />} />
+            <Route path="/registration" element={<Registration />} />
           </Routes>
         </main>
         <Footer />

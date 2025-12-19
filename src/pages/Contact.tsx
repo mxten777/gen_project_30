@@ -82,7 +82,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-sky-50 to-lime-50 dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-sky-50 to-lime-50 dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100 glassmorphism">
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-600 via-sky-600 to-lime-500">
         {/* Animated Background Blobs */}
@@ -99,8 +99,8 @@ const Contact: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
           >
-            전문 상담으로<br />
-            맞춤 교육을 시작하세요
+            상담 예약 및<br />
+            문의하기
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -108,8 +108,9 @@ const Contact: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-lg sm:text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed break-keep"
           >
-            궁금한 점이 있으시면 언제든 문의해 주세요.
-            20년 경력의 전문 상담사가 친절하고 자세하게 안내해 드립니다.
+            전화: (02) 481-6000<br />
+            주소: 서울특별시 송파구 문정동<br />
+            평일 07:30~18:20 / 토요일 07:30~16:20 / 일요일 휴무
           </motion.p>
         </div>
       </section>
@@ -127,7 +128,7 @@ const Contact: React.FC = () => {
             <div className="max-w-2xl mx-auto">
               <form
                 onSubmit={handleSubmit}
-                className="rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl hover:shadow-glow transition-all duration-500 p-8"
+                className="rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl hover:shadow-glow transition-all duration-500 p-8 mobile-card-spacing"
               >
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <div>
@@ -281,22 +282,22 @@ const Contact: React.FC = () => {
                 {
                   icon: '📞',
                   title: '전화 상담',
-                  content: '02-481-6000',
-                  desc: '평일 07:30~18:20\n토요일 07:30~16:20',
+                  content: '(02) 481-6000',
+                  desc: '평일 07:30~18:20\n토요일 07:30~16:20\n일요일 휴무',
                   color: 'from-primary-500 to-primary-600'
                 },
                 {
-                  icon: '💬',
-                  title: '카카오톡',
-                  content: '@kydriving',
-                  desc: '24시간 상담 가능\n빠른 답변 보장',
+                  icon: '🏢',
+                  title: '학원 주소',
+                  content: '서울특별시 송파구 문정동',
+                  desc: '8호선 복정역 3번 출구\n도보 10분 거리',
                   color: 'from-secondary-500 to-secondary-600'
                 },
                 {
-                  icon: '📱',
-                  title: '문자 상담',
-                  content: '문자 상담 가능',
-                  desc: '문자 상담 후\n전화로 자세한 안내',
+                  icon: '🚌',
+                  title: '셔틀버스',
+                  content: '전 지역 운행',
+                  desc: '신천역, 남한산성역\n개롱역, 방이역 등\n셔틀버스 문의: (02) 481-6000',
                   color: 'from-success-500 to-success-600'
                 }
               ].map((contact, index) => (

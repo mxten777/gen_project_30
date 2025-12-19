@@ -88,7 +88,7 @@ const About: React.FC = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto rounded-3xl bg-gradient-to-br from-indigo-100 via-sky-100 to-lime-100 dark:from-white/10 dark:to-white/5 border-2 border-white/30 shadow-xl backdrop-blur-xl p-12 hover:shadow-glow hover:scale-[1.02] transition-all duration-500"
+            className="max-w-4xl mx-auto rounded-3xl bg-gradient-to-br from-indigo-100 via-sky-100 to-lime-100 dark:from-white/10 dark:to-white/5 border-2 border-white/30 shadow-xl backdrop-blur-xl p-12 hover:shadow-glow hover:scale-[1.02] transition-all duration-500 mobile-card-spacing"
           >
             <div className="text-center mb-8">
               <div className="text-4xl sm:text-5xl md:text-6xl mb-6 animate-float">🎯</div>
@@ -99,7 +99,35 @@ const About: React.FC = () => {
               <span className="font-bold text-indigo-600 dark:text-sky-400 whitespace-nowrap">"빠르게, 저렴하게, 친절하게"</span> 입니다.{' '}
               <span className="font-semibold">빠르게</span>란 운전면허취득기간을 최단기간으로 단축시키는 노력을 하고있으며,{' '}
               <span className="font-semibold">저렴하게</span>란 교육수강비를 낮게 책정하여 많은 분들이 교육을 받는데에 부담이 없도록 노력하고 있으며,{' '}
-              <span className="font-semibold">친절하게</span>란 수강생여러분의 교육시간을 친절하며 상냥하게 하여 좀 더 나은 교육환경을 만들어 드립니다.
+              <span className="font-semibold">친절하게</span>란 수강생여러분의교육시간을 친절하며 상냥하게 하여 좀 더 효율적인 교육성과를 위하여 노력하고 있습니다.
+              <br /><br />
+              체계적 실무이론과 풍부한 교수 경험을 두루 갖춘 엘리트 강사진으로 편성되어 있어 수강을 원하시는 여러분의 눈높이에 맞추어 친절하고 편안함과 즐거움 속에서 교육지도가 이루어지고 있어 100% 가까운 높은 합격률을 자랑하고 있습니다.
+            </p>
+          </motion.div>
+        </section>
+
+        {/* 강사진 소개 */}
+        <section className="mb-24">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4"
+          >
+            엘리트 강사진
+          </motion.h2>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto rounded-3xl bg-gradient-to-br from-indigo-100 via-sky-100 to-lime-100 dark:from-white/10 dark:to-white/5 border-2 border-white/30 shadow-xl backdrop-blur-xl p-12 hover:shadow-glow hover:scale-[1.02] transition-all duration-500 mobile-card-spacing"
+          >
+            <div className="text-center mb-8">
+              <div className="text-4xl sm:text-5xl md:text-6xl mb-6 animate-float">👨‍🏫</div>
+              <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-indigo-700 dark:text-sky-300 mb-6 break-keep">체계적 실무이론과 풍부한 교수 경험</h3>
+            </div>
+            <p className="text-base sm:text-lg leading-relaxed text-gray-700 dark:text-gray-200 text-center max-w-3xl mx-auto break-keep">
+              체계적 실무이론과 풍부한 교수 경험을 두루 갖춘 엘리트 강사진으로 편성되어 있어 수강을 원하시는 여러분의 눈높이에 맞추어 친절하고 편안함과 즐거움 속에서 교육지도가 이루어지고 있어 100% 가까운 높은 합격률을 자랑하고 있습니다.
             </p>
           </motion.div>
         </section>
@@ -114,10 +142,11 @@ const About: React.FC = () => {
           >
             최첨단 교육 환경
           </motion.h2>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: '현대적인 교육 시설', desc: '최신 교육 장비와 쾌적한 학습 공간', icon: '🏫' },
-              { title: '안전 교육 차량', desc: '최신 모델의 교육용 차량 완비', icon: '🚛' }
+              { title: '넓고 쾌적한 실습장', desc: '5,000여평의 넓은 실습 공간', icon: '🏞️' },
+              { title: '우수한 강사 확보', desc: '경험이 풍부한 전문 강사진', icon: '👨‍🏫' },
+              { title: '친절교육 실시', desc: '친절하고 상냥한 교육 서비스', icon: '🤝' }
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -137,6 +166,35 @@ const About: React.FC = () => {
               </motion.div>
             ))}
           </div>
+        </section>
+
+        {/* 학원 정보 */}
+        <section className="mb-24">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4"
+          >
+            학원 정보
+          </motion.h2>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto rounded-3xl bg-gradient-to-br from-indigo-100 via-sky-100 to-lime-100 dark:from-white/10 dark:to-white/5 border-2 border-white/30 shadow-xl backdrop-blur-xl p-12 hover:shadow-glow hover:scale-[1.02] transition-all duration-500 mobile-card-spacing"
+          >
+            <div className="text-center space-y-6">
+              <div>
+                <h3 className="text-xl sm:text-2xl font-bold text-indigo-700 dark:text-sky-300 mb-2">학원명</h3>
+                <p className="text-lg text-gray-700 dark:text-gray-200">광연 자동차운전 전문학원</p>
+              </div>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-bold text-indigo-700 dark:text-sky-300 mb-2">주소</h3>
+                <p className="text-lg text-gray-700 dark:text-gray-200">서울시 강남구 헌릉로 733번(세공동)</p>
+              </div>
+            </div>
+          </motion.div>
         </section>
 
         {/* 인증 정보 */}

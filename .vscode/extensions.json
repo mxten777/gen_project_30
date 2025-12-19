@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    // 필수 확장 프로그램
+    "ms-vscode.vscode-typescript-next",
+    "bradlc.vscode-tailwindcss",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+
+    // 유용한 확장 프로그램
+    "ms-vscode.vscode-json",
+    "christian-kohler.path-intellisense",
+    "formulahendry.auto-rename-tag",
+    "ms-vscode.vscode-css-peek",
+    "usernamehw.errorlens",
+    "ms-vscode.vscode-git-graph",
+
+    // React 관련
+    "ms-vscode.vscode-js-profile-flame",
+    "ms-vscode.js-debug",
+
+    // 문서화
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+
+    // 기타 유틸리티
+    "ms-vscode.vscode-live-server",
+    "gruntfuggly.todo-tree"
+  ],
+  "unwantedRecommendations": [
+    // 제외할 확장 프로그램
+    "ms-vscode.vscode-typescript",
+    "hookyqr.beautify"
+  ]
+}

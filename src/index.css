@@ -79,14 +79,102 @@
   }
 }
 
-/* Float Animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+/* 모바일 터치 인터랙션 최적화 */
+@media (hover: none) and (pointer: coarse) {
+  /* 터치 디바이스에서 호버 효과 비활성화 */
+  .hover-scale:hover {
+    transform: none !important;
+  }
+
+  /* 터치 피드백 강화 */
+  .touch-feedback:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease-out;
+  }
+
+  /* 모바일에서 더 큰 터치 타겟 */
+  .mobile-touch {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
+/* 모바일 특화 애니메이션 */
+@keyframes mobile-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.02); }
+}
+
+@keyframes mobile-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes shine-mobile {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-mobile-float {
+  animation: mobile-float 4s ease-in-out infinite;
+}
+
+.animate-mobile-pulse {
+  animation: mobile-pulse 2s ease-in-out infinite;
+}
+
+.animate-shine {
+  animation: shine-mobile 3s ease-in-out infinite;
+}
+
+/* 모바일 뷰포트 최적화 */
+@media screen and (max-width: 768px) {
+  /* 모바일에서 더 부드러운 스크롤 */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 모바일에서 텍스트 크기 조정 */
+  .mobile-text-scale {
+    font-size: clamp(0.875rem, 4vw, 1.125rem);
+  }
+
+  /* 모바일에서 카드 간격 최적화 */
+  .mobile-card-spacing {
+    margin-bottom: 1rem;
+  }
+
+  /* 모바일에서 버튼 터치 영역 확대 */
+  .mobile-button-touch {
+    padding: 0.75rem 1.5rem;
+    min-height: 48px;
+  }
+}
+
+/* 터치 디바이스 감지 */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari */
+  .ios-touch {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+  }
+}
+
+/* 안드로이드 터치 최적화 */
+@supports not (-webkit-touch-callout: none) {
+  .android-touch {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+}
+
+/* 고해상도 디스플레이 지원 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .retina-optimized {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
 }
 
 :root {
@@ -155,5 +243,45 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+/* 모바일 반응형 최적화 (2025 Premium) */
+@layer components {
+  .mobile-card-spacing {
+    margin: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .mobile-card-spacing {
+      margin: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-card-spacing {
+      margin: 3rem;
+    }
+  }
+
+  /* 모바일 터치 최적화 */
+  .mobile-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* 모바일 애니메이션 최적화 */
+  @media (max-width: 768px) {
+    .mobile-optimized-animation {
+      animation-duration: 0.3s !important;
+      transition-duration: 0.3s !important;
+    }
+  }
+
+  /* 모바일 텍스트 크기 조정 */
+  @media (max-width: 640px) {
+    .mobile-text-scale {
+      font-size: 0.9rem;
+    }
   }
 }
