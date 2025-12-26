@@ -94,7 +94,7 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-sky-50 to-lime-50 dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100">
       {/* Hero Section - Mobile Optimized */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
+      <section data-hero-bleed className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Animated Background Blobs - Mobile Optimized */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-10 left-5 sm:left-10 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-indigo-500 to-sky-500 rounded-full blur-3xl animate-mobile-float" />

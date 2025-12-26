@@ -192,6 +192,39 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* KETRI UI Standard: header height control and anchor safety */
+:root {
+  /* default (mobile) header height == 4rem (64px) */
+  --app-header-h: 4rem;
+}
+
+@media (min-width: 640px) {
+  /* small and up header height == 5rem (80px) */
+  :root {
+    --app-header-h: 5rem;
+  }
+}
+
+/* header inner element uses this variable for height only (no JS calculations) */
+.app-header-inner {
+  height: var(--app-header-h);
+}
+
+/* sub-page hero safety: add top spacing equal to header height when present */
+[data-has-hero] {
+  padding-top: var(--app-header-h);
+}
+
+/* home hero may bleed under header */
+[data-hero-bleed] {
+  padding-top: 0;
+}
+
+/* anchor handling: CSS-only scroll offset using header height */
+:target {
+  scroll-margin-top: var(--app-header-h);
+}
+
 a {
   font-weight: 500;
   color: #646cff;
