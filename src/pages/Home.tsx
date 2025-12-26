@@ -2,9 +2,12 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 const Home: React.FC = () => {
+  // Auto-close configuration for event popup (seconds)
+  const AUTO_CLOSE_SECONDS = 8;
+
   const [showPopup, setShowPopup] = useState(false);
   const [popupVariant, setPopupVariant] = useState<'A' | 'B'>('A');
-  const [countdown, setCountdown] = useState(20);
+  const [countdown, setCountdown] = useState(AUTO_CLOSE_SECONDS);
 
   useEffect(() => {
     // A/B 테스트: 랜덤으로 팝업 변형 선택
@@ -36,10 +39,10 @@ const Home: React.FC = () => {
   // 팝업 자동 닫기 타이머
   useEffect(() => {
     if (showPopup) {
-      setCountdown(20); // 카운트다운 초기화
+      setCountdown(AUTO_CLOSE_SECONDS); // 카운트다운 초기화
       const autoCloseTimer = setTimeout(() => {
         setShowPopup(false);
-      }, 20000); // 20초 후 자동 닫기
+      }, AUTO_CLOSE_SECONDS * 1000); // 자동 닫기
 
       // 카운트다운 업데이트 (setTimeout 체인으로 성능 최적화)
       let countdownTimer: number;
