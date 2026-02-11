@@ -1,674 +1,386 @@
-import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import {
+  Phone, BookOpen, Shield, Award, Users, Car, Target,
+  ChevronRight, Star, ArrowRight, CheckCircle2, Clock, Zap
+} from 'lucide-react';
 
+/* ───── Animated Counter Hook ───── */
+function useCounter(target: number, duration = 2000) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-100px' });
+
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const increment = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= target) { setCount(target); clearInterval(timer); }
+      else setCount(Math.floor(start));
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, target, duration]);
+
+  return { count, ref };
+}
+
+/* ───── Section Fade-in Wrapper ───── */
+const FadeSection: React.FC<{ children: React.ReactNode; className?: string; delay?: number }> = ({ children, className = '', delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 32 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: '-80px' }}
+    transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
+
+/* ═══════════════════════════════════════════ */
 const Home: React.FC = () => {
-  // Auto-close configuration for event popup (seconds)
-  const AUTO_CLOSE_SECONDS = 8;
-
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupVariant, setPopupVariant] = useState<'A' | 'B'>('A');
-  const [countdown, setCountdown] = useState(AUTO_CLOSE_SECONDS);
-
-  useEffect(() => {
-    // A/B 테스트: 랜덤으로 팝업 변형 선택
-    setPopupVariant(Math.random() > 0.5 ? 'A' : 'B');
-
-    // 팝업 타이밍 설정 (조정 가능)
-    const POPUP_DELAY = 5000; // 5초로 변경 (원래 3초)
-
-    // 페이지 로드 후 설정된 시간 뒤 팝업 표시
-    const timer = setTimeout(() => {
-      setShowPopup(true);
-    }, POPUP_DELAY);
-
-    // Exit-intent 팝업 비활성화 (원하지 않으면 주석 처리)
-    // const handleMouseLeave = (e: MouseEvent) => {
-    //   if (e.clientY < 0) {
-    //     setShowPopup(true);
-    //   }
-    // };
-
-    // document.addEventListener('mouseleave', handleMouseLeave);
-
-    return () => {
-      clearTimeout(timer);
-      // document.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, []);
-
-  // 팝업 자동 닫기 타이머
-  useEffect(() => {
-    if (showPopup) {
-      setCountdown(AUTO_CLOSE_SECONDS); // 카운트다운 초기화
-      const autoCloseTimer = setTimeout(() => {
-        setShowPopup(false);
-      }, AUTO_CLOSE_SECONDS * 1000); // 자동 닫기
-
-      // 카운트다운 업데이트 (setTimeout 체인으로 성능 최적화)
-      let countdownTimer: number;
-      const updateCountdown = () => {
-        setCountdown((prev) => {
-          if (prev > 1) {
-            countdownTimer = window.setTimeout(updateCountdown, 1000);
-            return prev - 1;
-          }
-          return 0;
-        });
-      };
-      updateCountdown();
-
-      return () => {
-        clearTimeout(autoCloseTimer);
-        if (countdownTimer) clearTimeout(countdownTimer);
-      };
-    }
-  }, [showPopup]);
-
-  // 모바일 터치 최적화
-  useEffect(() => {
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    if (isMobile) {
-      // 모바일 터치 피드백 강화
-      const handleTouchStart = (e: TouchEvent) => {
-        const target = e.target as HTMLElement;
-        if (target.closest('button, a, [role="button"]')) {
-          target.style.transform = 'scale(0.98)';
-        }
-      };
-
-      const handleTouchEnd = (e: TouchEvent) => {
-        const target = e.target as HTMLElement;
-        if (target.closest('button, a, [role="button"]')) {
-          target.style.transform = '';
-        }
-      };
-
-      document.addEventListener('touchstart', handleTouchStart, { passive: true });
-      document.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-      return () => {
-        document.removeEventListener('touchstart', handleTouchStart);
-        document.removeEventListener('touchend', handleTouchEnd);
-      };
-    }
-  }, []);
+  const stats = [
+    { target: 95, suffix: '%', label: '합격률', icon: Target },
+    { target: 20, suffix: '+년', label: '교육 경력', icon: Award },
+    { target: 5000, suffix: '+', label: '졸업생', icon: Users },
+    { target: 100, suffix: '%', label: '안전 교육', icon: Shield },
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-sky-50 to-lime-50 dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100">
-      {/* Hero Section - Mobile Optimized */}
+    <div className="min-h-screen bg-navy-950 text-white">
+
+      {/* ══════ HERO ══════ */}
       <section data-hero-bleed className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Animated Background Blobs - Mobile Optimized */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-10 left-5 sm:left-10 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-indigo-500 to-sky-500 rounded-full blur-3xl animate-mobile-float" />
-          <div className="absolute bottom-10 right-5 sm:right-10 w-60 sm:w-80 h-60 sm:h-80 bg-gradient-to-br from-sky-400 to-lime-400 rounded-full blur-3xl animate-mobile-float" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 sm:w-72 h-48 sm:h-72 bg-gradient-to-br from-lime-400 to-indigo-400 rounded-full blur-3xl animate-mobile-float" style={{ animationDelay: '2s' }} />
+        {/* Background Mesh */}
+        <div className="absolute inset-0 bg-hero-gradient" />
+        <div className="absolute inset-0 grid-pattern" />
+
+        {/* Orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-brand-600/20 rounded-full blur-[120px] animate-pulse-soft" />
+          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-brand-400/15 rounded-full blur-[100px] animate-pulse-soft" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[140px] animate-float-slow" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-8"
+          >
+            <span className="badge-gold">
+              <Star className="w-3 h-3" />
+              서울 강남 · 20년 전통 운전전문학원
+            </span>
+          </motion.div>
+
+          {/* Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-4 sm:mb-6 leading-tight max-w-5xl mx-auto break-keep"
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-display-xl xl:text-display-2xl font-extrabold mb-6 leading-[1.05] tracking-tight"
           >
-            운전은 <span className="bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">안전</span>,{' '}
-            합격은 <span className="bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">결과</span>로 증명합니다
+            운전은{' '}
+            <span className="text-gradient-blue">안전</span>
+            ,<br className="hidden sm:block" /> 합격은{' '}
+            <span className="text-gradient-gold">결과</span>
+            로<br className="hidden sm:block" /> 증명합니다
           </motion.h1>
+
+          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-gray-700 dark:text-gray-200 mb-6 sm:mb-10 max-w-3xl mx-auto leading-relaxed break-keep mobile-text-scale"
+            transition={{ duration: 0.8, delay: 0.25 }}
+            className="text-lg sm:text-xl text-navy-300 mb-10 max-w-2xl mx-auto leading-relaxed"
           >
-            <span className="whitespace-nowrap">광연자동차운전전문학원</span> - 국내 최고 수준의 운전 교육으로 안전 운전과 합격을 동시에 이루세요
+            광연자동차운전전문학원 — 국내 최고 수준의
+            운전 교육으로 안전 운전과 합격을 동시에 이루세요
           </motion.p>
+
+          {/* CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full max-w-2xl mx-auto"
+            className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <motion.button
-              className="flex items-center justify-center gap-2 px-4 sm:px-6 lg:px-8 py-3 sm:py-4 text-sm sm:text-base lg:text-lg font-semibold rounded-2xl bg-gradient-to-r from-indigo-500 via-sky-500 to-lime-400 text-white shadow-xl hover:shadow-glow hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-4 focus:ring-sky-200 focus:ring-offset-2 transition-all duration-300 will-change-transform relative overflow-hidden mobile-button-touch touch-feedback"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+            <Link to="/contact" className="btn-gold text-base">
+              <Phone className="w-5 h-5" />
+              상담 예약하기
+            </Link>
+            <Link to="/courses" className="btn-secondary text-base">
+              <BookOpen className="w-5 h-5" />
+              교육 과정 보기
+            </Link>
+          </motion.div>
+
+          {/* Scroll Indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5 }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          >
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2"
             >
-              <span>📞</span>
-              <span>상담 예약하기</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent before:via-white/20 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700" />
-            </motion.button>
-            <motion.button
-              className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 text-sm sm:text-base lg:text-lg font-semibold rounded-2xl bg-white/70 dark:bg-white/10 backdrop-blur-xl border-2 border-white/30 hover:scale-[1.03] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-sky-200 focus:ring-offset-2 mobile-button-touch touch-feedback"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <span className="flex items-center gap-2">
-                <span>📚</span>
-                <span>교육 과정 보기</span>
-              </span>
-            </motion.button>
+              <div className="w-1 h-2 rounded-full bg-white/40" />
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Key Strengths - Ultra Premium Glass Cards */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent"
-          >
-            왜 광연자동차운전전문학원을 선택해야 할까요?
-          </motion.h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+      {/* ══════ KEY STRENGTHS ══════ */}
+      <section className="section-padding relative overflow-hidden">
+        <div className="absolute inset-0 grid-pattern opacity-30" />
+        <div className="relative max-w-7xl mx-auto">
+          <FadeSection>
+            <p className="section-subtitle text-sm font-semibold tracking-widest uppercase text-brand-400 mb-3">WHY CHOOSE US</p>
+            <h2 className="section-title text-gradient">왜 광연을 선택해야 할까요?</h2>
+            <p className="section-subtitle">20년 이상의 실전 교육 경험과 95% 이상의 합격률로 검증된 전문 학원입니다</p>
+          </FadeSection>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: '전문 강사', desc: '20년 이상 경력의 전문 강사진', icon: '👨‍🏫', color: 'from-indigo-500 to-indigo-600' },
-              { title: '최신 코스', desc: '개정된 교통 법규 반영 교육', icon: '📚', color: 'from-sky-500 to-sky-600' },
-              { title: '높은 합격률', desc: '95% 이상의 합격률 달성', icon: '🎯', color: 'from-lime-500 to-lime-600' },
-              { title: '최신 차량', desc: '안전하고 최신 교육 차량', icon: '🚗', color: 'from-indigo-500 to-sky-600' }
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{
-                  scale: window.innerWidth >= 768 ? 1.05 : 1.02,
-                  y: window.innerWidth >= 768 ? -8 : -4,
-                  transition: { type: "spring", stiffness: 300, damping: 20 }
-                }}
-                className="group relative rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl p-6 sm:p-8 text-center hover:shadow-glow transition-all duration-500 will-change-transform overflow-hidden mobile-card-spacing touch-feedback"
-              >
-                {/* Animated Background Gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-2xl`} />
-
-                {/* Floating Particles */}
-                <div className="absolute top-4 right-4 w-2 h-2 bg-gradient-to-r from-indigo-400 to-sky-400 rounded-full opacity-0 group-hover:opacity-60 animate-ping" />
-                <div className="absolute bottom-4 left-4 w-1 h-1 bg-gradient-to-r from-sky-400 to-lime-400 rounded-full opacity-0 group-hover:opacity-60 animate-ping" style={{ animationDelay: '0.5s' }} />
-
-                <motion.div
-                  className="text-5xl mb-4 relative z-10"
-                  whileHover={{
-                    scale: 1.1,
-                    rotate: [0, -5, 5, 0],
-                    transition: { duration: 0.6 }
-                  }}
-                >
-                  {item.icon}
-                </motion.div>
-                <motion.h3
-                  className="text-xl font-semibold mb-3 text-indigo-700 dark:text-sky-300 relative z-10"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  {item.title}
-                </motion.h3>
-                <motion.p
-                  className="text-sm text-gray-600 dark:text-gray-300 relative z-10"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  {item.desc}
-                </motion.p>
-
-                {/* Shine Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 rounded-2xl" />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Course CTA - Ultra Premium Interactive Cards */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent"
-          >
-            대표 교육 과정
-          </motion.h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {[
-              { name: '1종 대형면허', desc: '프로 운전자를 위한 전문 과정', icon: '🚛', gradient: 'from-indigo-100 via-sky-100 to-lime-100', hoverGradient: 'from-indigo-500 to-sky-500' },
-              { name: '2종 보통면허', desc: '일반 운전면허 취득 과정', icon: '🚗', gradient: 'from-sky-100 via-lime-100 to-indigo-100', hoverGradient: 'from-sky-500 to-lime-500' },
-              { name: '장롱면허 재취득', desc: '빠르고 효율적인 재취득 교육', icon: '🔄', gradient: 'from-lime-100 via-indigo-100 to-sky-100', hoverGradient: 'from-lime-500 to-indigo-500' }
-            ].map((course, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{
-                  scale: window.innerWidth >= 768 ? 1.05 : 1.02,
-                  y: window.innerWidth >= 768 ? -10 : -5,
-                  transition: { type: "spring", stiffness: 300, damping: 20 }
-                }}
-                className={`group relative rounded-2xl bg-gradient-to-br ${course.gradient} dark:from-white/10 dark:to-white/5 border-2 border-white/30 shadow-xl backdrop-blur-2xl p-6 sm:p-8 text-center hover:shadow-glow transition-all duration-500 cursor-pointer will-change-transform overflow-hidden mobile-card-spacing touch-feedback`}
-              >
-                {/* Dynamic Background */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${course.hoverGradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-2xl`} />
-
-                {/* Animated Border */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-500 via-sky-500 to-lime-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-[2px]">
-                  <div className="w-full h-full bg-white/90 dark:bg-black/90 rounded-2xl" />
+              { title: '전문 강사진', desc: '20년 이상 경력의 엘리트 강사진이 1:1 맞춤 교육을 제공합니다', icon: Users, accent: 'brand' },
+              { title: '최신 커리큘럼', desc: '개정 교통법규를 반영한 체계적인 5일 완성 교육 과정', icon: BookOpen, accent: 'brand' },
+              { title: '95% 합격률', desc: '검증된 교육 시스템으로 높은 합격률을 자랑합니다', icon: Target, accent: 'gold' },
+              { title: '최신 교육 차량', desc: '안전하고 최신 사양의 교육 차량으로 실전 교육 제공', icon: Car, accent: 'brand' },
+            ].map((item, i) => (
+              <FadeSection key={i} delay={i * 0.1}>
+                <div className="premium-card p-8 h-full group">
+                  <div className={`w-12 h-12 rounded-xl mb-6 flex items-center justify-center ${
+                    item.accent === 'gold'
+                      ? 'bg-gold-500/10 text-gold-400 group-hover:bg-gold-500/20'
+                      : 'bg-brand-500/10 text-brand-400 group-hover:bg-brand-500/20'
+                  } transition-colors duration-500`}>
+                    <item.icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-3">{item.title}</h3>
+                  <p className="text-sm text-navy-400 leading-relaxed">{item.desc}</p>
                 </div>
-
-                {/* Floating Elements */}
-                <div className="absolute top-4 left-4 w-3 h-3 bg-gradient-to-r from-indigo-400 to-sky-400 rounded-full opacity-0 group-hover:opacity-70 animate-bounce" />
-                <div className="absolute top-6 right-6 w-2 h-2 bg-gradient-to-r from-sky-400 to-lime-400 rounded-full opacity-0 group-hover:opacity-70 animate-bounce" style={{ animationDelay: '0.2s' }} />
-                <div className="absolute bottom-4 right-4 w-1 h-1 bg-gradient-to-r from-lime-400 to-indigo-400 rounded-full opacity-0 group-hover:opacity-70 animate-bounce" style={{ animationDelay: '0.4s' }} />
-
-                <motion.div
-                  className="text-5xl sm:text-6xl mb-6 relative z-10"
-                  whileHover={{
-                    scale: 1.2,
-                    rotate: [0, -10, 10, 0],
-                    transition: { duration: 0.8, ease: "easeInOut" }
-                  }}
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  {course.icon}
-                </motion.div>
-                <motion.h3
-                  className="text-xl sm:text-2xl font-semibold mb-4 text-indigo-700 dark:text-sky-200 px-2 relative z-10"
-                  whileHover={{ scale: 1.05, color: '#ffffff' }}
-                >
-                  {course.name}
-                </motion.h3>
-                <motion.p
-                  className="text-sm text-gray-700 dark:text-gray-200 mb-6 px-2 relative z-10"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  {course.desc}
-                </motion.p>
-                <motion.button
-                  className="px-6 py-3 text-base font-semibold rounded-xl bg-gradient-to-r from-indigo-500 to-sky-500 text-white shadow-lg hover:scale-[1.05] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-sky-200 focus:ring-offset-2 relative z-10 overflow-hidden"
-                  whileHover={{
-                    scale: 1.05,
-                    boxShadow: "0 10px 25px rgba(0,0,0,0.2)"
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <span className="relative z-10">자세히 보기</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-white/20 -translate-x-full hover:translate-x-full transition-transform duration-700" />
-                </motion.button>
-
-                {/* Shine Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-2xl" />
-              </motion.div>
+              </FadeSection>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Statistics - Ultra Premium with Counter Animation */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        {/* Enhanced Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-sky-500 to-lime-400" />
-        <div className="absolute inset-0 bg-black/30" />
+      {/* ══════ COURSES OVERVIEW ══════ */}
+      <section className="section-padding relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-brand-950/30 to-navy-950" />
+        <div className="relative max-w-7xl mx-auto">
+          <FadeSection>
+            <p className="section-subtitle text-sm font-semibold tracking-widest uppercase text-brand-400 mb-3">COURSES</p>
+            <h2 className="section-title text-white">대표 교육 과정</h2>
+            <p className="section-subtitle">목적에 맞는 최적의 교육 과정을 선택하세요</p>
+          </FadeSection>
 
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0">
-          <motion.div
-            className="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full blur-xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          <motion.div
-            className="absolute bottom-10 right-10 w-40 h-40 bg-white/10 rounded-full blur-xl"
-            animate={{
-              scale: [1.2, 1, 1.2],
-              opacity: [0.4, 0.7, 0.4],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-white/10 rounded-full blur-xl"
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.2, 0.5, 0.2],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {[
+              { name: '1종 대형면허', desc: '프로 운전자를 위한 전문 면허 과정. 대형 차량 운전 교육 및 시험 준비를 철저히 지원합니다.', icon: '🚛', features: ['대형 차량 실습', '전문 강사 1:1', '시험장 동행'] },
+              { name: '2종 보통면허', desc: '가장 인기 있는 일반 운전면허 취득 과정. 빠르고 확실한 합격을 위한 체계적 교육.', icon: '🚗', features: ['5일 완성 코스', '시내 도로 연수', '주차 교육 포함'], popular: true },
+              { name: '장롱면허 재취득', desc: '면허는 있지만 운전이 두려운 분들을 위한 맞춤 재교육 프로그램.', icon: '🔄', features: ['공포심 해소', '실전 도로 연습', '맞춤 스케줄'] },
+            ].map((course, i) => (
+              <FadeSection key={i} delay={i * 0.12}>
+                <div className={`premium-card p-8 h-full relative group ${course.popular ? 'border-brand-500/30 shadow-glow-soft' : ''}`}>
+                  {course.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                      <span className="badge-gold text-xs">
+                        <Zap className="w-3 h-3" /> 가장 인기
+                      </span>
+                    </div>
+                  )}
+                  <div className="text-5xl mb-6">{course.icon}</div>
+                  <h3 className="text-xl font-bold text-white mb-3">{course.name}</h3>
+                  <p className="text-sm text-navy-400 mb-6 leading-relaxed">{course.desc}</p>
+                  <ul className="space-y-2.5 mb-8">
+                    {course.features.map((f, fi) => (
+                      <li key={fi} className="flex items-center gap-2.5 text-sm text-navy-300">
+                        <CheckCircle2 className="w-4 h-4 text-brand-400 flex-shrink-0" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    to="/courses"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-brand-400 hover:text-brand-300 transition-colors group/link"
+                  >
+                    자세히 보기
+                    <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
+              </FadeSection>
+            ))}
+          </div>
         </div>
+      </section>
+
+      {/* ══════ STATISTICS ══════ */}
+      <section className="section-padding relative overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-950 via-brand-900 to-brand-950" />
+        <div className="absolute inset-0 grid-pattern opacity-20" />
+
+        {/* Orbs */}
+        <div className="absolute top-0 left-1/4 w-64 h-64 bg-brand-500/20 rounded-full blur-[100px] animate-pulse-soft" />
+        <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-gold-500/10 rounded-full blur-[80px] animate-pulse-soft" style={{ animationDelay: '1s' }} />
 
         <div className="relative max-w-7xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-16 text-white"
-          >
-            신뢰할 수 있는 <span className="bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent">실적</span>
-          </motion.h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <FadeSection>
+            <h2 className="section-title text-white">신뢰할 수 있는 <span className="text-gradient-gold">실적</span></h2>
+            <p className="section-subtitle text-brand-200/60">숫자로 증명하는 광연의 교육 품질</p>
+          </FadeSection>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {stats.map((stat, i) => {
+              const { count, ref } = useCounter(stat.target);
+              return (
+                <FadeSection key={i} delay={i * 0.1}>
+                  <div ref={ref} className="text-center p-6 sm:p-8 rounded-2xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-sm hover:bg-white/[0.08] transition-all duration-500 group">
+                    <stat.icon className="w-8 h-8 text-brand-400 mx-auto mb-4 group-hover:text-gold-400 transition-colors duration-500" />
+                    <div className="text-4xl sm:text-5xl font-bold text-white mb-2 tabular-nums">
+                      {count}{stat.suffix}
+                    </div>
+                    <div className="text-sm text-navy-400 font-medium">{stat.label}</div>
+                  </div>
+                </FadeSection>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════ TESTIMONIALS ══════ */}
+      <section className="section-padding relative overflow-hidden">
+        <div className="absolute inset-0 grid-pattern opacity-30" />
+        <div className="relative max-w-7xl mx-auto">
+          <FadeSection>
+            <p className="section-subtitle text-sm font-semibold tracking-widest uppercase text-brand-400 mb-3">TESTIMONIALS</p>
+            <h2 className="section-title text-white">수강생 후기</h2>
+            <p className="section-subtitle">실제 졸업생들의 생생한 후기를 확인하세요</p>
+          </FadeSection>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { number: '95%', label: '합격률', desc: '높은 합격률로 검증된 교육', icon: '🎯' },
-              { number: '20+', label: '년 경력', desc: '20년 이상의 전문 교육 경험', icon: '🏆' },
-              { number: '5000+', label: '졸업생', desc: '만족한 졸업생들의 선택', icon: '👥' },
-              { number: '100%', label: '안전 교육', desc: '안전 운전을 최우선으로', icon: '🛡️' }
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{
-                  scale: window.innerWidth >= 768 ? 1.05 : 1.02,
-                  y: window.innerWidth >= 768 ? -5 : -2,
-                  transition: { type: "spring", stiffness: 300, damping: 20 }
-                }}
-                className="group relative text-center p-6 sm:p-8 rounded-2xl bg-white/10 backdrop-blur-xl border-2 border-white/20 hover:bg-white/20 hover:shadow-glow transition-all duration-500 will-change-transform overflow-hidden mobile-card-spacing touch-feedback"
-              >
-                {/* Animated Border */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/20 via-transparent to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-[2px]">
-                  <div className="w-full h-full bg-white/5 rounded-2xl" />
+              { name: '김OO', course: '2종 보통', text: '친절하고 체계적인 교육 덕분에 한 번에 합격했습니다. 운전이 두려웠는데 자신감이 생겼어요!', rating: 5 },
+              { name: '이OO', course: '장롱면허', text: '10년 넘게 운전을 안 했는데 5일만에 다시 도로에 나갈 수 있게 됐습니다. 강사님 감사합니다!', rating: 5 },
+              { name: '박OO', course: '1종 대형', text: '대형면허 따기 쉽지 않을 줄 알았는데, 전문적인 교육 덕분에 한 번에 합격했습니다.', rating: 5 },
+            ].map((review, i) => (
+              <FadeSection key={i} delay={i * 0.1}>
+                <div className="premium-card p-8 h-full">
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-4">
+                    {Array.from({ length: review.rating }).map((_, si) => (
+                      <Star key={si} className="w-4 h-4 fill-gold-400 text-gold-400" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-navy-300 leading-relaxed mb-6 italic">
+                    "{review.text}"
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-sm font-bold text-brand-400">
+                      {review.name[0]}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-white">{review.name}</p>
+                      <p className="text-xs text-navy-500">{review.course} 수강</p>
+                    </div>
+                  </div>
                 </div>
-
-                {/* Floating Icon */}
-                <motion.div
-                  className="text-3xl mb-4"
-                  whileHover={{
-                    scale: 1.2,
-                    rotate: [0, -10, 10, 0],
-                    transition: { duration: 0.6 }
-                  }}
-                  animate={{ y: [0, -3, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: index * 0.2 }}
-                >
-                  {stat.icon}
-                </motion.div>
-
-                <motion.div
-                  className="text-4xl sm:text-5xl font-bold mb-2 text-white relative z-10"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{ duration: 0.8, delay: index * 0.1 + 0.3, type: "spring", stiffness: 200 }}
-                >
-                  {stat.number}
-                </motion.div>
-                <motion.div
-                  className="text-lg sm:text-xl font-semibold mb-2 text-white relative z-10"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 + 0.5 }}
-                >
-                  {stat.label}
-                </motion.div>
-                <motion.div
-                  className="text-sm text-white/80 relative z-10"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 + 0.7 }}
-                >
-                  {stat.desc}
-                </motion.div>
-
-                {/* Shine Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-2xl" />
-              </motion.div>
+              </FadeSection>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Final CTA - Ultra Premium Glass with Enhanced Effects */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0">
-          <motion.div
-            className="absolute top-20 left-20 w-64 h-64 bg-gradient-to-r from-indigo-500/20 via-sky-500/20 to-lime-400/20 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.1, 1],
-              rotate: [0, 180, 360],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-          <motion.div
-            className="absolute bottom-20 right-20 w-48 h-48 bg-gradient-to-r from-sky-500/20 via-lime-400/20 to-indigo-500/20 rounded-full blur-3xl"
-            animate={{
-              scale: [1.1, 1, 1.1],
-              rotate: [360, 180, 0],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-        </div>
+      {/* ══════ PROCESS PREVIEW ══════ */}
+      <section className="section-padding relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-brand-950/20 to-navy-950" />
+        <div className="relative max-w-5xl mx-auto">
+          <FadeSection>
+            <p className="section-subtitle text-sm font-semibold tracking-widest uppercase text-brand-400 mb-3">PROCESS</p>
+            <h2 className="section-title text-white">간편한 수강 절차</h2>
+            <p className="section-subtitle">신분증만 있으면 바로 시작할 수 있습니다</p>
+          </FadeSection>
 
-        <div className="relative max-w-7xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto rounded-3xl bg-white/80 dark:bg-white/10 border-2 border-white/40 shadow-2xl backdrop-blur-2xl p-6 sm:p-8 lg:p-12 relative overflow-hidden group mobile-card-spacing"
-          >
-            {/* Animated Border */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-indigo-500 via-sky-500 to-lime-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-[2px]">
-              <div className="w-full h-full bg-white/95 dark:bg-black/95 rounded-3xl" />
+          <div className="space-y-4">
+            {[
+              { step: '01', title: '학원 등록', desc: '신분증 지참 후 방문 또는 온라인 등록', icon: CheckCircle2 },
+              { step: '02', title: '적성검사 & 학과시험', desc: '적성검사 후 컴퓨터 학과시험 응시', icon: BookOpen },
+              { step: '03', title: '기능 & 도로주행', desc: '전문 강사와 함께 실전 교육 진행', icon: Car },
+              { step: '04', title: '면허증 발급', desc: '시험 합격 후 면허증 즉시 발급', icon: Award },
+            ].map((item, i) => (
+              <FadeSection key={i} delay={i * 0.1}>
+                <div className="premium-card p-6 sm:p-8 flex items-center gap-6 group">
+                  <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400 group-hover:bg-brand-500/20 transition-colors duration-500">
+                    <item.icon className="w-6 h-6" />
+                  </div>
+                  <div className="flex-grow min-w-0">
+                    <div className="flex items-center gap-3 mb-1">
+                      <span className="text-xs font-bold text-brand-500 tabular-nums">STEP {item.step}</span>
+                      <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+                    </div>
+                    <p className="text-sm text-navy-400">{item.desc}</p>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-navy-600 flex-shrink-0 group-hover:text-brand-400 group-hover:translate-x-1 transition-all duration-300 hidden sm:block" />
+                </div>
+              </FadeSection>
+            ))}
+          </div>
+
+          <FadeSection delay={0.4}>
+            <div className="text-center mt-10">
+              <Link to="/process" className="btn-secondary text-sm">
+                <Clock className="w-4 h-4" />
+                수강 절차 자세히 보기
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
-
-            {/* Floating Elements */}
-            <div className="absolute top-6 left-6 w-4 h-4 bg-gradient-to-r from-indigo-400 to-sky-400 rounded-full opacity-0 group-hover:opacity-60 animate-ping" />
-            <div className="absolute top-8 right-8 w-3 h-3 bg-gradient-to-r from-sky-400 to-lime-400 rounded-full opacity-0 group-hover:opacity-60 animate-ping" style={{ animationDelay: '0.3s' }} />
-            <div className="absolute bottom-6 right-6 w-2 h-2 bg-gradient-to-r from-lime-400 to-indigo-400 rounded-full opacity-0 group-hover:opacity-60 animate-ping" style={{ animationDelay: '0.6s' }} />
-
-            <motion.h2
-              className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 relative z-10"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              지금 바로 <motion.span
-                className="bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                운전면허
-              </motion.span> 도전하세요
-            </motion.h2>
-            <motion.p
-              className="text-base sm:text-lg text-gray-700 dark:text-gray-200 mb-10 max-w-2xl mx-auto relative z-10"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              전문 강사진과 최신 교육 시스템으로 안전 운전과 합격을 동시에 이루세요.
-              <br />
-              <span className="font-semibold text-indigo-600 dark:text-sky-400">
-                무료 상담을 통해 맞춤 교육 과정을 안내받으실 수 있습니다.
-              </span>
-            </motion.p>
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-2xl mx-auto relative z-10"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <motion.button
-                className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-2xl bg-gradient-to-r from-indigo-500 via-sky-500 to-lime-400 text-white shadow-xl hover:shadow-glow hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-4 focus:ring-sky-200 focus:ring-offset-2 transition-all duration-300 will-change-transform relative overflow-hidden"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 15px 35px rgba(0,0,0,0.2)"
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <motion.span
-                  className="text-xl"
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  📞
-                </motion.span>
-                <span>무료 상담 예약</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent before:via-white/20 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700" />
-              </motion.button>
-              <motion.button
-                className="px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-2xl bg-white/80 dark:bg-white/10 border-2 border-indigo-200 dark:border-white/20 hover:border-indigo-300 hover:scale-[1.03] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-sky-200 focus:ring-offset-2 shadow-lg backdrop-blur-sm"
-                whileHover={{
-                  scale: 1.05,
-                  borderColor: "#3b82f6"
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="flex items-center gap-2">
-                  <span>📍</span>
-                  <span>오시는 길</span>
-                </span>
-              </motion.button>
-            </motion.div>
-
-            {/* Shine Effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-3xl" />
-          </motion.div>
+          </FadeSection>
         </div>
       </section>
 
-      {/* Event Popup - Mobile-Optimized Premium Design */}
-      {showPopup && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md px-4 py-6"
-          onClick={() => setShowPopup(false)}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="w-full max-w-sm sm:max-w-md rounded-3xl bg-white/95 dark:bg-black/95 border-2 border-white/40 dark:border-white/20 shadow-[0_20px_60px_-12px_rgba(0,0,0,0.5)] backdrop-blur-2xl p-6 sm:p-8 relative overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Animated Background Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-sky-500/5 to-lime-400/5 rounded-3xl" />
+      {/* ══════ FINAL CTA ══════ */}
+      <section className="section-padding relative overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-800 to-brand-900" />
+        <div className="absolute inset-0 grid-pattern opacity-10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-500/10 rounded-full blur-[150px]" />
 
-            {/* Floating Particles */}
-            <div className="absolute top-4 right-4 w-2 h-2 bg-gradient-to-r from-indigo-400 to-sky-400 rounded-full opacity-30 animate-ping" />
-            <div className="absolute bottom-4 left-4 w-1 h-1 bg-gradient-to-r from-sky-400 to-lime-400 rounded-full opacity-30 animate-ping" style={{ animationDelay: '1s' }} />
-
-            <div className="text-center mb-6 relative z-10">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <motion.div
-                  className="text-4xl sm:text-5xl"
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  🚗
-                </motion.div>
-                <motion.div
-                  className="text-xs bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1.5 rounded-full font-bold shadow-lg"
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  {countdown}s 남음
-                </motion.div>
-              </div>
-              <motion.h3
-                className="text-lg sm:text-xl font-bold mb-3 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent"
-                initial={{ scale: 0.9 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                {popupVariant === 'A' ? '무료 상담 이벤트!' : '특별 할인 이벤트!'}
-              </motion.h3>
-              <motion.p
-                className="text-gray-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                {popupVariant === 'A'
-                  ? '지금 상담 예약 시, 첫 수업료 10% 할인 혜택을 드립니다.'
-                  : '지금 등록 시, 수강료 15% 할인 + 무료 모의시험 혜택!'}
-              </motion.p>
+        <div className="relative max-w-4xl mx-auto text-center">
+          <FadeSection>
+            <h2 className="text-display-sm sm:text-display-md md:text-display-lg font-bold text-white mb-6">
+              지금 바로<br />
+              <span className="text-gradient-gold">운전면허</span> 도전하세요
+            </h2>
+            <p className="text-lg text-brand-200/70 mb-10 max-w-2xl mx-auto leading-relaxed">
+              전문 강사진과 최신 교육 시스템으로<br className="hidden sm:block" />
+              안전 운전과 합격을 동시에 이루세요.
+              <br />
+              <span className="text-gold-300 font-medium">무료 상담을 통해 맞춤 교육 과정을 안내받으세요.</span>
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/contact" className="btn-gold text-base">
+                <Phone className="w-5 h-5" />
+                무료 상담 예약
+              </Link>
+              <Link to="/location" className="btn-secondary text-base border-white/10">
+                <ArrowRight className="w-5 h-5" />
+                오시는 길
+              </Link>
             </div>
-
-            <div className="space-y-4 relative z-10">
-              <motion.button
-                onClick={() => setShowPopup(false)}
-                className="w-full px-6 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 via-sky-500 to-lime-400 text-white font-bold shadow-xl hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-base sm:text-lg relative overflow-hidden"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  <motion.span
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    📞
-                  </motion.span>
-                  상담 예약하기
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-white/20 -translate-x-full hover:translate-x-full transition-transform duration-700" />
-              </motion.button>
-
-              <motion.div
-                className="flex items-start gap-3 text-xs sm:text-sm text-gray-500 bg-gray-50 dark:bg-white/5 p-3 rounded-xl"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-              >
-                <input
-                  type="checkbox"
-                  id="cookie-consent"
-                  className="rounded border-2 border-gray-300 mt-0.5 flex-shrink-0 w-4 h-4"
-                />
-                <label htmlFor="cookie-consent" className="leading-relaxed cursor-pointer">
-                  쿠키 사용에 동의합니다 (GDPR 준수)
-                </label>
-              </motion.div>
-
-              <motion.button
-                onClick={() => setShowPopup(false)}
-                className="w-full px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-white/10 dark:hover:bg-white/20 transition-all duration-300 text-sm sm:text-base font-medium"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                나중에 하기
-              </motion.button>
-            </div>
-
-            <motion.div
-              className="mt-6 text-center relative z-10"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-            >
-              <p className="text-xs text-gray-500 dark:text-gray-400 bg-white/50 dark:bg-black/50 px-3 py-2 rounded-full inline-block">
-                📱 터치하여 닫기 • ESC 키로 닫기 가능
-              </p>
-            </motion.div>
-
-            {/* Shine Effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-shine rounded-3xl" />
-          </motion.div>
+          </FadeSection>
         </div>
-      )}
+      </section>
     </div>
   );
 };

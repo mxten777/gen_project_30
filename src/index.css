@@ -2,38 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 글래스모피즘 효과 (2025 Premium) */
-@layer components {
-  .glass {
-    background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-  }
+/* ===== 2026 ULTRA PREMIUM GLOBAL STYLES ===== */
 
-  .glass-dark {
-    background-color: rgba(24, 24, 27, 0.7);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .text-gradient {
-    background: linear-gradient(90deg, #6366f1 0%, #0ea5e9 50%, #a3e635 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-gradient-primary {
-    background: linear-gradient(90deg, #6366f1 0%, #0ea5e9 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-}
-
-/* 타이포그래피 안티알리아싱 & 한글 줄바꿈 최적화 */
+/* --- Base Layer --- */
 @layer base {
   * {
     -webkit-font-smoothing: antialiased;
@@ -43,278 +14,257 @@
   html {
     font-feature-settings: 'kern', 'liga', 'calt';
     font-family: 'Inter', 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    /* 한글 단어 줄바꿈 최적화 */
     word-break: keep-all;
     overflow-wrap: break-word;
-    /* 수평 스크롤 방지 */
     overflow-x: hidden;
     max-width: 100vw;
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-gradient-to-br from-slate-50 via-sky-50 to-lime-50 dark:from-gray-900 dark:to-black;
-    /* 수평 스크롤 방지 */
+    @apply bg-navy-950 text-white;
     overflow-x: hidden;
     max-width: 100vw;
     position: relative;
   }
 
-  /* 한글 텍스트 줄바꿈 최적화 */
   p, h1, h2, h3, h4, h5, h6, span, div {
     word-break: keep-all;
     overflow-wrap: break-word;
   }
 
-  /* 긴 영문 URL이나 코드는 강제 줄바꿈 */
-  code, pre, .break-words {
-    word-break: break-word;
-    overflow-wrap: break-word;
+  ::selection {
+    @apply bg-brand-500/30 text-white;
+  }
+
+  /* Premium Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-navy-950;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-brand-600/50 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-brand-500/70;
   }
 }
 
-/* 프리미엄 포커스 스타일 */
+/* --- Component Layer --- */
+@layer components {
+  /* Glass Effect Card */
+  .glass {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-light {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* Premium Card */
+  .premium-card {
+    @apply relative rounded-2xl bg-white/[0.03] border border-white/[0.06] backdrop-blur-xl;
+    @apply transition-all duration-500 ease-premium;
+    @apply hover:bg-white/[0.06] hover:border-white/[0.12] hover:shadow-card-hover;
+    @apply hover:-translate-y-1;
+  }
+
+  .premium-card-gold {
+    @apply premium-card;
+    @apply hover:border-gold-500/30 hover:shadow-glow-gold;
+  }
+
+  /* Gradient Text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #5c91ff 0%, #3668fc 40%, #ffd14a 100%);
+  }
+
+  .text-gradient-blue {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #90b8ff 0%, #3668fc 50%, #1e45f2 100%);
+  }
+
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #ffe588 0%, #ffd14a 50%, #f59e07 100%);
+  }
+
+  /* Premium Button */
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center gap-2;
+    @apply px-8 py-4 rounded-xl font-semibold text-white;
+    @apply bg-gradient-to-r from-brand-600 to-brand-500;
+    @apply shadow-lg shadow-brand-500/25;
+    @apply hover:shadow-xl hover:shadow-brand-500/40 hover:scale-[1.02];
+    @apply active:scale-[0.98];
+    @apply transition-all duration-300 ease-premium;
+    @apply focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:ring-offset-2 focus:ring-offset-navy-950;
+  }
+
+  .btn-secondary {
+    @apply relative inline-flex items-center justify-center gap-2;
+    @apply px-8 py-4 rounded-xl font-semibold;
+    @apply bg-white/[0.06] text-white border border-white/[0.12];
+    @apply backdrop-blur-lg;
+    @apply hover:bg-white/[0.1] hover:border-white/[0.2] hover:scale-[1.02];
+    @apply active:scale-[0.98];
+    @apply transition-all duration-300 ease-premium;
+    @apply focus:outline-none focus:ring-2 focus:ring-white/20 focus:ring-offset-2 focus:ring-offset-navy-950;
+  }
+
+  .btn-gold {
+    @apply relative inline-flex items-center justify-center gap-2;
+    @apply px-8 py-4 rounded-xl font-bold;
+    @apply bg-gradient-to-r from-gold-500 to-gold-400 text-navy-950;
+    @apply shadow-lg shadow-gold-500/25;
+    @apply hover:shadow-xl hover:shadow-gold-500/40 hover:scale-[1.02];
+    @apply active:scale-[0.98];
+    @apply transition-all duration-300 ease-premium;
+    @apply focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:ring-offset-2 focus:ring-offset-navy-950;
+  }
+
+  /* Section Styles */
+  .section-padding {
+    @apply py-24 md:py-32 px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-title {
+    @apply text-display-sm sm:text-display-md md:text-display-lg font-bold text-center mb-6;
+  }
+
+  .section-subtitle {
+    @apply text-body-lg sm:text-body-xl text-navy-400 text-center max-w-3xl mx-auto mb-16;
+  }
+
+  /* Input Styles */
+  .input-premium {
+    @apply w-full px-5 py-3.5 rounded-xl;
+    @apply bg-white/[0.04] border border-white/[0.08];
+    @apply text-white placeholder:text-navy-500;
+    @apply focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500/50;
+    @apply transition-all duration-300;
+  }
+
+  .input-premium-error {
+    @apply border-error-500/50 focus:ring-error-500/40 focus:border-error-500/50;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full;
+    @apply text-caption font-medium;
+    @apply bg-brand-500/10 text-brand-300 border border-brand-500/20;
+  }
+
+  .badge-gold {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full;
+    @apply text-caption font-medium;
+    @apply bg-gold-500/10 text-gold-300 border border-gold-500/20;
+  }
+}
+
+/* --- Utility Layer --- */
 @layer utilities {
   .focus-premium:focus {
-    @apply outline-none ring-4 ring-sky-200 ring-offset-2;
+    @apply outline-none ring-2 ring-brand-400/50 ring-offset-2 ring-offset-navy-950;
   }
 }
 
-/* 모바일 터치 인터랙션 최적화 */
-@media (hover: none) and (pointer: coarse) {
-  /* 터치 디바이스에서 호버 효과 비활성화 */
-  .hover-scale:hover {
-    transform: none !important;
-  }
-
-  /* 터치 피드백 강화 */
-  .touch-feedback:active {
-    transform: scale(0.98);
-    transition: transform 0.1s ease-out;
-  }
-
-  /* 모바일에서 더 큰 터치 타겟 */
-  .mobile-touch {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-
-/* 모바일 특화 애니메이션 */
-@keyframes mobile-float {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-5px) scale(1.02); }
-}
-
-@keyframes mobile-pulse {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.1); }
-}
-
-@keyframes shine-mobile {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-.animate-mobile-float {
-  animation: mobile-float 4s ease-in-out infinite;
-}
-
-.animate-mobile-pulse {
-  animation: mobile-pulse 2s ease-in-out infinite;
-}
-
-.animate-shine {
-  animation: shine-mobile 3s ease-in-out infinite;
-}
-
-/* 모바일 뷰포트 최적화 */
-@media screen and (max-width: 768px) {
-  /* 모바일에서 더 부드러운 스크롤 */
-  html {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* 모바일에서 텍스트 크기 조정 */
-  .mobile-text-scale {
-    font-size: clamp(0.875rem, 4vw, 1.125rem);
-  }
-
-  /* 모바일에서 카드 간격 최적화 */
-  .mobile-card-spacing {
-    margin-bottom: 1rem;
-  }
-
-  /* 모바일에서 버튼 터치 영역 확대 */
-  .mobile-button-touch {
-    padding: 0.75rem 1.5rem;
-    min-height: 48px;
-  }
-}
-
-/* 터치 디바이스 감지 */
-@supports (-webkit-touch-callout: none) {
-  /* iOS Safari */
-  .ios-touch {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-  }
-}
-
-/* 안드로이드 터치 최적화 */
-@supports not (-webkit-touch-callout: none) {
-  .android-touch {
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  }
-}
-
-/* 고해상도 디스플레이 지원 */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .retina-optimized {
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-  }
-}
-
+/* --- CSS Variables --- */
 :root {
+  --app-header-h: 4rem;
   font-family: 'Inter', 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  color-scheme: dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* KETRI UI Standard: header height control and anchor safety */
-:root {
-  /* default (mobile) header height == 4rem (64px) */
-  --app-header-h: 4rem;
-}
-
 @media (min-width: 640px) {
-  /* small and up header height == 5rem (80px) */
   :root {
     --app-header-h: 5rem;
   }
 }
 
-/* header inner element uses this variable for height only (no JS calculations) */
 .app-header-inner {
   height: var(--app-header-h);
 }
 
-/* sub-page hero safety: add top spacing equal to header height when present */
 [data-has-hero] {
   padding-top: var(--app-header-h);
 }
 
-/* home hero may bleed under header */
 [data-hero-bleed] {
   padding-top: 0;
 }
 
-/* anchor handling: CSS-only scroll offset using header height */
 :target {
   scroll-margin-top: var(--app-header-h);
 }
 
+/* Remove default anchor/button reset conflicts */
 a {
-  font-weight: 500;
-  color: #646cff;
   text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  color: inherit;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Noise Texture Overlay */
+.noise-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* Grid Pattern Overlay */
+.grid-pattern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 1;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* Mobile Touch Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .hover-scale:hover {
+    transform: none !important;
   }
-  a:hover {
-    color: #747bff;
+  .touch-feedback:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease-out;
   }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
-/* 모바일 반응형 최적화 (2025 Premium) */
-@layer components {
-  .mobile-card-spacing {
-    margin: 1rem;
-  }
-
-  @media (min-width: 640px) {
-    .mobile-card-spacing {
-      margin: 2rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .mobile-card-spacing {
-      margin: 3rem;
-    }
-  }
-
-  /* 모바일 터치 최적화 */
-  .mobile-touch-target {
+  .mobile-touch {
     min-height: 44px;
     min-width: 44px;
   }
+}
 
-  /* 모바일 애니메이션 최적화 */
-  @media (max-width: 768px) {
-    .mobile-optimized-animation {
-      animation-duration: 0.3s !important;
-      transition-duration: 0.3s !important;
-    }
-  }
-
-  /* 모바일 텍스트 크기 조정 */
-  @media (max-width: 640px) {
-    .mobile-text-scale {
-      font-size: 0.9rem;
-    }
-  }
+/* Counter Animation Helper */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }

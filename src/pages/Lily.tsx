@@ -2,14 +2,18 @@ import { motion } from 'framer-motion';
 
 const Lily: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-sky-50 to-lime-50 dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen bg-navy-950 text-white">
       <section data-has-hero className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="absolute inset-0 bg-hero-gradient" />
+        <div className="absolute inset-0 grid-pattern opacity-30" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-500/10 rounded-full blur-[150px]" />
+
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold mb-4 sm:mb-6 leading-tight max-w-5xl mx-auto break-keep mobile-text-scale"
+            className="text-3xl sm:text-4xl md:text-display-lg font-extrabold mb-6"
           >
             Lily's Page
           </motion.h1>
@@ -17,9 +21,9 @@ const Lily: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-gray-700 dark:text-gray-200 mb-6 sm:mb-10 max-w-3xl mx-auto leading-relaxed break-keep mobile-text-scale"
+            className="text-lg text-navy-300 max-w-xl mx-auto"
           >
-            Welcome to Lily's page. This is a placeholder content for Lily's section.
+            이 페이지는 추가 콘텐츠를 위한 공간입니다.
           </motion.p>
         </div>
       </section>

@@ -1,355 +1,210 @@
-import { useState } from 'react';
+import { addDoc, collection } from 'firebase/firestore';
 import { motion } from 'framer-motion';
-import { collection, addDoc } from 'firebase/firestore';
+import { useState } from 'react';
 import { db } from '../firebase';
+import { Phone, MapPin, Bus, Mail, Clock, Send, CheckCircle2 } from 'lucide-react';
+
+const Fade: React.FC<{ children: React.ReactNode; className?: string; delay?: number }> = ({ children, className = '', delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 28 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: '-60px' }}
+    transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+    className={className}
+  >{children}</motion.div>
+);
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    course: '',
-    message: ''
-  });
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '', course: '', message: '' });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
 
-  const validateForm = () => {
-    const newErrors: {[key: string]: string} = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = '이름을 입력해 주세요.';
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = '연락처를 입력해 주세요.';
-    } else if (!/^01[016789]-?[^0][0-9]{2,3}-?[0-9]{3,4}$/.test(formData.phone.replace(/-/g, ''))) {
-      newErrors.phone = '올바른 휴대폰 번호를 입력해 주세요.';
-    }
-
-    if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = '올바른 이메일 주소를 입력해 주세요.';
-    }
-
-    if (!formData.course) {
-      newErrors.course = '관심 과정을 선택해 주세요.';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const validate = () => {
+    const e: Record<string, string> = {};
+    if (!formData.name.trim()) e.name = '이름을 입력해 주세요.';
+    if (!formData.phone.trim()) e.phone = '연락처를 입력해 주세요.';
+    else if (!/^01[016789]-?[^0][0-9]{2,3}-?[0-9]{3,4}$/.test(formData.phone.replace(/-/g, '')))
+      e.phone = '올바른 휴대폰 번호를 입력해 주세요.';
+    if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) e.email = '올바른 이메일을 입력해 주세요.';
+    if (!formData.course) e.course = '관심 과정을 선택해 주세요.';
+    setErrors(e);
+    return Object.keys(e).length === 0;
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-    // 에러 메시지 제거
-    if (errors[e.target.name]) {
-      setErrors({
-        ...errors,
-        [e.target.name]: ''
-      });
-    }
+  const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFormData(p => ({ ...p, [ev.target.name]: ev.target.value }));
+    if (errors[ev.target.name]) setErrors(p => ({ ...p, [ev.target.name]: '' }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
-
+  const handleSubmit = async (ev: React.FormEvent) => {
+    ev.preventDefault();
+    if (!validate()) return;
     setIsSubmitting(true);
     setSubmitMessage('');
-
     try {
-      await addDoc(collection(db, 'consultations'), {
-        ...formData,
-        timestamp: new Date(),
-        status: 'pending'
-      });
-      setSubmitMessage('✅ 상담 신청이 완료되었습니다. 곧 연락드리겠습니다.');
+      await addDoc(collection(db, 'consultations'), { ...formData, timestamp: new Date(), status: 'pending' });
+      setSubmitMessage('success');
       setFormData({ name: '', phone: '', email: '', course: '', message: '' });
       setErrors({});
-    } catch (error) {
-      console.error('Error adding document: ', error);
-      setSubmitMessage('❌ 오류가 발생했습니다. 다시 시도해 주세요.');
+    } catch (err) {
+      console.error(err);
+      setSubmitMessage('error');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-sky-50 to-lime-50 dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100 glassmorphism">
-      {/* Hero Section */}
-      <section data-has-hero className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-600 via-sky-600 to-lime-500">
-        {/* Animated Background Blobs */}
-        <div className="absolute inset-0 opacity-40">
-          <div className="absolute top-20 left-20 w-96 h-96 bg-white/30 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-20 right-20 w-80 h-80 bg-lime-300/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-sky-300/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-        </div>
+  const inputCls = (field: string) =>
+    `input-premium ${errors[field] ? 'input-premium-error' : ''}`;
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center z-10">
+  return (
+    <div className="min-h-screen bg-navy-950 text-white">
+      {/* Hero */}
+      <section data-has-hero className="relative min-h-[55vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-hero-gradient" />
+        <div className="absolute inset-0 grid-pattern opacity-30" />
+        <div className="absolute top-1/3 left-1/3 w-[350px] h-[350px] bg-brand-500/15 rounded-full blur-[120px]" />
+
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+            <span className="badge"><Phone className="w-3 h-3" /> CONTACT</span>
+          </motion.div>
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.8 }}
+            className="text-3xl sm:text-4xl md:text-display-lg font-extrabold mb-6"
           >
-            상담 예약 및<br />
-            문의하기
+            상담 예약 및 문의
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg sm:text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed break-keep"
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.8 }}
+            className="text-lg text-navy-300 max-w-xl mx-auto"
           >
-            전화: (02) 481-6000<br />
-            주소: 서울특별시 송파구 문정동<br />
-            평일 07:30~18:20 / 토요일 07:30~16:20 / 일요일 휴무
+            전화 (02) 481-6000 · 평일 07:30~18:20 · 토요일 07:30~16:20
           </motion.p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="max-w-4xl mx-auto">
-          {/* 상담 신청 폼 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-16"
-          >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent">온라인 상담 신청</h2>
-            <div className="max-w-2xl mx-auto">
-              <form
-                onSubmit={handleSubmit}
-                className="rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl hover:shadow-glow transition-all duration-500 p-8 mobile-card-spacing"
-              >
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">
-                      이름 *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className={`w-full px-5 py-3 text-base border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 bg-white/80 dark:bg-white/10 backdrop-blur-md placeholder:text-gray-400 ${
-                        errors.name
-                          ? 'border-red-300 focus:ring-red-100 focus:border-red-500'
-                          : 'border-gray-200 focus:ring-sky-100 focus:border-indigo-500'
-                      }`}
-                      placeholder="이름을 입력하세요"
-                    />
-                    {errors.name && <p className="mt-2 text-sm text-red-600 font-medium">{errors.name}</p>}
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">
-                      연락처 *
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      className={`w-full px-5 py-3 text-base border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 bg-white/80 dark:bg-white/10 backdrop-blur-md placeholder:text-gray-400 ${
-                        errors.phone
-                          ? 'border-red-300 focus:ring-red-100 focus:border-red-500'
-                          : 'border-gray-200 focus:ring-sky-100 focus:border-indigo-500'
-                      }`}
-                      placeholder="010-1234-5678"
-                    />
-                    {errors.phone && <p className="mt-2 text-sm text-red-600 font-medium">{errors.phone}</p>}
-                  </div>
+      {/* Form + Info */}
+      <section className="section-padding">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-5 gap-8">
+            {/* Form */}
+            <div className="lg:col-span-3">
+              <Fade>
+                <div className="premium-card p-8">
+                  <h2 className="text-xl font-bold text-white mb-8 flex items-center gap-2">
+                    <Send className="w-5 h-5 text-brand-400" />
+                    온라인 상담 신청
+                  </h2>
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid sm:grid-cols-2 gap-5">
+                      <div>
+                        <label className="block text-sm font-medium text-navy-300 mb-2">이름 *</label>
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="이름" className={inputCls('name')} />
+                        {errors.name && <p className="mt-1.5 text-xs text-error-400">{errors.name}</p>}
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-navy-300 mb-2">연락처 *</label>
+                        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="010-1234-5678" className={inputCls('phone')} />
+                        {errors.phone && <p className="mt-1.5 text-xs text-error-400">{errors.phone}</p>}
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-navy-300 mb-2">이메일</label>
+                      <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="email@example.com" className={inputCls('email')} />
+                      {errors.email && <p className="mt-1.5 text-xs text-error-400">{errors.email}</p>}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-navy-300 mb-2">관심 과정 *</label>
+                      <select name="course" value={formData.course} onChange={handleChange} className={inputCls('course')}>
+                        <option value="">선택하세요</option>
+                        <option value="1종 대형면허">1종 대형면허</option>
+                        <option value="2종 보통면허">2종 보통면허</option>
+                        <option value="장롱면허 재취득">장롱면허 재취득</option>
+                        <option value="도로연수">도로연수</option>
+                      </select>
+                      {errors.course && <p className="mt-1.5 text-xs text-error-400">{errors.course}</p>}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-navy-300 mb-2">문의사항</label>
+                      <textarea name="message" value={formData.message} onChange={handleChange} rows={4} placeholder="궁금한 점을 자유롭게 적어 주세요." className="input-premium resize-none" />
+                    </div>
+                    <button type="submit" disabled={isSubmitting} className="btn-primary w-full">
+                      {isSubmitting ? (
+                        <span className="flex items-center gap-2">
+                          <motion.span animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }} className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full inline-block" />
+                          처리 중...
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2"><Send className="w-4 h-4" /> 상담 신청하기</span>
+                      )}
+                    </button>
+
+                    {submitMessage && (
+                      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                        className={`p-4 rounded-xl text-center text-sm font-medium ${
+                          submitMessage === 'success'
+                            ? 'bg-success-500/10 text-success-400 border border-success-500/20'
+                            : 'bg-error-500/10 text-error-400 border border-error-500/20'
+                        }`}
+                      >
+                        {submitMessage === 'success' ? '✅ 상담 신청이 완료되었습니다. 곧 연락드리겠습니다.' : '❌ 오류가 발생했습니다. 다시 시도해 주세요.'}
+                      </motion.div>
+                    )}
+                  </form>
                 </div>
-
-                <div className="mb-6">
-                  <label htmlFor="email" className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">
-                    이메일
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={`w-full px-5 py-3 text-base border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 bg-white/80 dark:bg-white/10 backdrop-blur-md placeholder:text-gray-400 ${
-                      errors.email
-                        ? 'border-red-300 focus:ring-red-100 focus:border-red-500'
-                        : 'border-gray-200 focus:ring-sky-100 focus:border-indigo-500'
-                    }`}
-                    placeholder="email@example.com"
-                  />
-                  {errors.email && <p className="mt-2 text-sm text-red-600 font-medium">{errors.email}</p>}
-                </div>
-
-                <div className="mb-6">
-                  <label htmlFor="course" className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">
-                    관심 과정 *
-                  </label>
-                  <select
-                    id="course"
-                    name="course"
-                    value={formData.course}
-                    onChange={handleChange}
-                    className={`w-full px-5 py-3 text-base border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-300 bg-white/80 dark:bg-white/10 backdrop-blur-md ${
-                      errors.course
-                        ? 'border-red-300 focus:ring-red-100 focus:border-red-500'
-                        : 'border-gray-200 focus:ring-sky-100 focus:border-indigo-500'
-                    }`}
-                  >
-                    <option value="">관심 과정을 선택하세요</option>
-                    <option value="1종 대형면허">1종 대형면허</option>
-                    <option value="2종 보통면허">2종 보통면허</option>
-                    <option value="장롱면허 재취득">장롱면허 재취득</option>
-                    <option value="도로연수">도로연수</option>
-                  </select>
-                  {errors.course && <p className="mt-2 text-sm text-red-600 font-medium">{errors.course}</p>}
-                </div>
-
-                <div className="mb-8">
-                  <label htmlFor="message" className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">
-                    문의사항
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows={5}
-                    className="w-full px-5 py-3 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-sky-100 focus:border-indigo-500 transition-all duration-300 resize-vertical bg-white/80 dark:bg-white/10 backdrop-blur-md placeholder:text-gray-400"
-                    placeholder="교육 일정, 비용, 준비사항 등 궁금한 점을 자유롭게 문의해 주세요."
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-xl bg-gradient-to-r from-indigo-500 via-sky-500 to-lime-400 text-white shadow-xl hover:shadow-glow hover:scale-[1.03] active:scale-[0.97] disabled:bg-gray-400 disabled:transform-none disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-sky-200 focus:ring-offset-2 transition-all duration-300 will-change-transform relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-3"
-                      />
-                      상담 신청 처리 중...
-                    </>
-                  ) : (
-                    <>
-                      📞 상담 신청하기
-                    </>
-                  )}
-                </button>
-
-                {submitMessage && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`mt-6 p-4 rounded-xl text-center font-semibold ${
-                      submitMessage.includes('완료')
-                        ? 'bg-green-50 text-green-800 border-2 border-green-200'
-                        : 'bg-red-50 text-red-800 border-2 border-red-200'
-                    }`}
-                  >
-                    {submitMessage}
-                  </motion.div>
-                )}
-              </form>
+              </Fade>
             </div>
-          </motion.div>
 
-          {/* 연락처 정보 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent px-4">다른 방법으로 문의하기</h2>
-            <div className="grid md:grid-cols-3 gap-8">
+            {/* Sidebar Info */}
+            <div className="lg:col-span-2 space-y-6">
               {[
-                {
-                  icon: '📞',
-                  title: '전화 상담',
-                  content: '(02) 481-6000',
-                  desc: '평일 07:30~18:20\n토요일 07:30~16:20\n일요일 휴무',
-                  color: 'from-primary-500 to-primary-600'
-                },
-                {
-                  icon: '🏢',
-                  title: '학원 주소',
-                  content: '서울특별시 송파구 문정동',
-                  desc: '8호선 복정역 3번 출구\n도보 10분 거리',
-                  color: 'from-secondary-500 to-secondary-600'
-                },
-                {
-                  icon: '🚌',
-                  title: '셔틀버스',
-                  content: '전 지역 운행',
-                  desc: '신천역, 남한산성역\n개롱역, 방이역 등\n셔틀버스 문의: (02) 481-6000',
-                  color: 'from-success-500 to-success-600'
-                }
-              ].map((contact, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="text-center p-8 rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl hover:shadow-glow hover:scale-[1.03] hover:-translate-y-2 transition-all duration-500 will-change-transform"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${contact.color} flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg hover:scale-110 transition-transform duration-500`}>
-                    {contact.icon}
+                { icon: Phone, title: '전화 상담', content: '(02) 481-6000', desc: '평일 07:30~18:20\n토요일 07:30~16:20\n일요일 휴무' },
+                { icon: MapPin, title: '학원 주소', content: '서울특별시 송파구 문정동', desc: '8호선 복정역 3번 출구\n도보 10분 거리' },
+                { icon: Bus, title: '셔틀버스', content: '전 지역 운행', desc: '신천역, 남한산성역\n개롱역, 방이역 등' },
+              ].map((item, i) => (
+                <Fade key={i} delay={i * 0.1}>
+                  <div className="premium-card p-6 group">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-400 flex-shrink-0 group-hover:bg-brand-500/20 transition-colors">
+                        <item.icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-white mb-1">{item.title}</h3>
+                        <p className="text-sm font-bold text-brand-300 mb-1">{item.content}</p>
+                        <p className="text-xs text-navy-500 whitespace-pre-line leading-relaxed">{item.desc}</p>
+                      </div>
+                    </div>
                   </div>
-                  <h3 className="text-xl font-bold mb-3 text-indigo-700 dark:text-sky-300">{contact.title}</h3>
-                  <p className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2">{contact.content}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 whitespace-pre-line">{contact.desc}</p>
-                </motion.div>
+                </Fade>
               ))}
-            </div>
-          </motion.div>
 
-          {/* 추가 안내 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mt-16 text-center max-w-3xl mx-auto"
-          >
-            <div className="rounded-2xl bg-gradient-to-br from-indigo-100 via-sky-100 to-lime-100 dark:from-white/10 dark:to-white/5 border-2 border-white/30 shadow-xl p-8 hover:shadow-glow hover:scale-[1.02] transition-all duration-500">
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 text-indigo-700 dark:text-sky-300">상담 예약 혜택</h3>
-              <div className="grid md:grid-cols-3 gap-6 text-center">
-                <div>
-                  <div className="text-2xl sm:text-3xl mb-3 animate-float">💰</div>
-                  <div className="font-semibold text-indigo-700 dark:text-sky-300 text-lg mb-1">저렴한 교육비</div>
-                  <div className="text-sm text-gray-700 dark:text-gray-200">합리적인 가격으로<br />최고의 교육 제공</div>
+              {/* Benefits */}
+              <Fade delay={0.3}>
+                <div className="premium-card-gold p-6">
+                  <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <CheckCircle2 className="w-5 h-5 text-gold-400" />
+                    상담 예약 혜택
+                  </h3>
+                  <ul className="space-y-3">
+                    {[
+                      { icon: Mail, text: '합리적인 교육비 안내' },
+                      { icon: Bus, text: '전 지역 셔틀버스 운행' },
+                      { icon: Clock, text: '친절한 맞춤 상담 서비스' },
+                    ].map((b, i) => (
+                      <li key={i} className="flex items-center gap-2.5 text-sm text-navy-300">
+                        <b.icon className="w-4 h-4 text-gold-400 flex-shrink-0" />
+                        {b.text}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <div>
-                  <div className="text-2xl sm:text-3xl mb-3 animate-float" style={{ animationDelay: '0.5s' }}>🚌</div>
-                  <div className="font-semibold text-indigo-700 dark:text-sky-300 text-lg mb-1">셔틀버스 운영</div>
-                  <div className="text-sm text-gray-700 dark:text-gray-200">전 지역 셔틀버스<br />편리한 통학</div>
-                </div>
-                <div>
-                  <div className="text-2xl sm:text-3xl mb-3 animate-float" style={{ animationDelay: '1s' }}>😊</div>
-                  <div className="font-semibold text-indigo-700 dark:text-sky-300 text-lg mb-1">친절한 서비스</div>
-                  <div className="text-sm text-gray-700 dark:text-gray-200">친절하고 상냥한<br />교육 진행</div>
-                </div>
-              </div>
+              </Fade>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

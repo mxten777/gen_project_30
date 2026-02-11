@@ -1,288 +1,171 @@
 import { motion } from 'framer-motion';
+import { MapPin, Phone, Bus, Clock, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const Fade: React.FC<{ children: React.ReactNode; className?: string; delay?: number }> = ({ children, className = '', delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 28 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: '-60px' }}
+    transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+    className={className}
+  >{children}</motion.div>
+);
+
+const shuttleRoutes = [
+  {
+    name: '2호차',
+    route: '신천역 · 잠실아파트 단지',
+    stops: ['잠실역', '신천역', '석촌역', '송파역', '방이역 경유'],
+    time: '매시간 30분 출발',
+  },
+  {
+    name: '3호차',
+    route: '남한산성역 · 모란역 · 태평역',
+    stops: ['태평역', '모란역', '남한산성역 경유'],
+    time: '매시간 30분 출발',
+  },
+  {
+    name: '4호차',
+    route: '개롱역 · 마천동 · 거여역',
+    stops: ['거여역', '마천역', '개롱역 경유'],
+    time: '매시간 30분 출발',
+  },
+  {
+    name: '7호차',
+    route: '방이역 · 올림픽공원역 · 둔촌역',
+    stops: ['둔촌역', '올림픽공원역', '방이역 경유'],
+    time: '매시간 30분 출발',
+  },
+];
 
 const Location: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-sky-50 to-lime-50 dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100 glassmorphism">
-      {/* Hero Section */}
-      <section data-has-hero className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-600 via-sky-600 to-lime-500">
-        {/* Animated Background Blobs */}
-        <div className="absolute inset-0 opacity-40">
-          <div className="absolute top-20 left-20 w-96 h-96 bg-white/30 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-20 right-20 w-80 h-80 bg-lime-300/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-sky-300/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-        </div>
+    <div className="min-h-screen bg-navy-950 text-white">
+      {/* Hero */}
+      <section data-has-hero className="relative min-h-[55vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-hero-gradient" />
+        <div className="absolute inset-0 grid-pattern opacity-30" />
+        <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-brand-500/15 rounded-full blur-[120px]" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center z-10">
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+            <span className="badge"><Bus className="w-3 h-3" /> SHUTTLE & LOCATION</span>
+          </motion.div>
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-lg break-keep"
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.8 }}
+            className="text-3xl sm:text-4xl md:text-display-lg font-extrabold mb-6"
           >
-            셔틀버스안내
+            셔틀버스 안내 &<br />오시는 길
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg sm:text-xl md:text-2xl mb-10 text-white/95 max-w-3xl mx-auto leading-relaxed break-keep"
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.8 }}
+            className="text-lg text-navy-300 max-w-xl mx-auto"
           >
-            셔틀버스 노선 시간표 문의전화 (02) 481-6000<br/>
-            평일 07:30~18:20 / 토요일 07:30~16:20분까지 / 일.공휴일 : 셔틀운행안함 / ※ 매시간 30분 출발
+            셔틀버스 문의전화 (02) 481-6000<br />
+            평일 07:30~18:20 / 토요일 07:30~16:20 / 매시간 30분 출발
           </motion.p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        {/* 셔틀버스 노선 안내 */}
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 via-sky-600 to-lime-600 bg-clip-text text-transparent"
-        >
-          셔틀버스 노선 시간표
-        </motion.h2>
+      {/* Shuttle Routes */}
+      <section className="section-padding">
+        <div className="max-w-5xl mx-auto">
+          <Fade>
+            <p className="text-sm font-semibold tracking-widest uppercase text-brand-400 text-center mb-3">SHUTTLE BUS</p>
+            <h2 className="section-title text-white">셔틀버스 노선 시간표</h2>
+            <p className="section-subtitle">일·공휴일 셔틀 운행 안 함</p>
+          </Fade>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* 2호차 노선 */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl p-8 hover:shadow-glow hover:scale-[1.02] transition-all duration-500 mobile-card-spacing"
-          >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-sky-500 flex items-center justify-center text-2xl shadow-lg">
-                🚌
-              </div>
-              <h3 className="text-xl font-bold text-indigo-700 dark:text-sky-300">2호차 (신천역.잠실아파트 단지)</h3>
-            </div>
-            <div className="space-y-2 text-gray-700 dark:text-gray-200 text-sm">
-              <div className="flex justify-between">
-                <span>30) 학원출발</span>
-                <span>40) 레이크팰리스 서문</span>
-              </div>
-              <div className="flex justify-between">
-                <span>41) 갤러리아팰리스 상가앞</span>
-                <span>42) 잠실롯데마트 입구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>43) 2호선 잠실역 5번 출구</span>
-                <span>44) 잠실YMCA앞</span>
-              </div>
-              <div className="flex justify-between">
-                <span>46) 리센츠APT 남3문 버스정류장</span>
-                <span>48) 2호선 신천역 8번 출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>2호선 신천역 5번 출구</span>
-                <span>50) 엘스APT 잠실2동 우체국 앞</span>
-              </div>
-              <div className="flex justify-between">
-                <span>52) 아시아선수촌APT 정문 앞</span>
-                <span>54) 성현교회 앞</span>
-              </div>
-              <div className="flex justify-between">
-                <span>55) 잠실등기소 앞</span>
-                <span>56) 농협중앙회</span>
-              </div>
-              <div className="flex justify-between">
-                <span>삼전사거리 기아자동차 대리점</span>
-                <span>00) 학여울역 1번 출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>05) 수서역 6번 출구</span>
-                <span>10) 학원도착</span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* 3호차 노선 */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl p-8 hover:shadow-glow hover:scale-[1.02] transition-all duration-500 mobile-card-spacing"
-          >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-lime-500 to-green-500 flex items-center justify-center text-2xl shadow-lg">
-                🚌
-              </div>
-              <h3 className="text-xl font-bold text-indigo-700 dark:text-sky-300">3호차 (남한산성역,모란역,태평역)</h3>
-            </div>
-            <div className="space-y-2 text-gray-700 dark:text-gray-200 text-sm">
-              <div className="flex justify-between">
-                <span>30) 학원출발</span>
-                <span>35) 산성역 기능대 앞</span>
-              </div>
-              <div className="flex justify-between">
-                <span>38) 남한상선 입구(GS주유소 앞)</span>
-                <span>40) 을지대 정문</span>
-              </div>
-              <div className="flex justify-between">
-                <span>41) 은행동 베스킨라빈스</span>
-                <span>43) 양지동 주민센터 앞</span>
-              </div>
-              <div className="flex justify-between">
-                <span>45) 8호선 남한산성역 3번 출구</span>
-                <span>47) 8호선 단대오거리역 7번 출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>49) 세이브존 정문 앞</span>
-                <span>51) 8호선 신흥역 3번 출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>52) 8호선 수진역 3번 출구</span>
-                <span>55) 8호선·분당선 모란역 10번 출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>58) 수진2동 주민센터 앞</span>
-                <span>59) 분당선 태평역 1번 출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>00) 가나자동차용품점(태평고개)</span>
-                <span>03) 분당선 경원대역 1번 출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>05) 동서울대학(버스정류장)</span>
-                <span>06) 명인만두</span>
-              </div>
-              <div className="flex justify-between">
-                <span>08) 8호선 복정역 3번 출구</span>
-                <span>10) 학원도착</span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* 4호차 노선 */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl p-8 hover:shadow-glow hover:scale-[1.02] transition-all duration-500 mobile-card-spacing"
-          >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl shadow-lg">
-                🚌
-              </div>
-              <h3 className="text-xl font-bold text-indigo-700 dark:text-sky-300">4호차 (개롱역,마천동,거여역)</h3>
-            </div>
-            <div className="space-y-2 text-gray-700 dark:text-gray-200 text-sm">
-              <div className="flex justify-between">
-                <span>30) 학원출발</span>
-                <span>39) 문정대우푸르지오APT 정문</span>
-              </div>
-              <div className="flex justify-between">
-                <span>41) 삼성레미안APT 정문</span>
-                <span>43) 가락극동APT 버스정류정</span>
-              </div>
-              <div className="flex justify-between">
-                <span>45) 5호선 개롱역 1번출구</span>
-                <span>46) 송파도서관 건너편</span>
-              </div>
-              <div className="flex justify-between">
-                <span>47) 마천사거리 국민은행건너편 조외과</span>
-                <span>48) 세계로약국앞</span>
-              </div>
-              <div className="flex justify-between">
-                <span>49) 우방APT 건너편 버스정류장</span>
-                <span>52) 금호어울림APT 건너편 버스정류장</span>
-              </div>
-              <div className="flex justify-between">
-                <span>55) 비호APT 건너편 버스정류장</span>
-                <span>57) 5호선 거여역 1번출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>59) 가락프라자APT 버스정류장</span>
-                <span>00) 삼성레미안APT후문 버스정류장</span>
-              </div>
-              <div className="flex justify-between">
-                <span>02) 파인타운1단지 정문 맞은편</span>
-                <span>유정유치원</span>
-              </div>
-              <div className="flex justify-between">
-                <span>파인타운2단지 정문앞</span>
-                <span>04) 8.9단지 건너편 문현중학교앞</span>
-              </div>
-              <div className="flex justify-between">
-                <span>06) 8호선 장지역 3번출구</span>
-                <span>09) 8호선 복정역 3번출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>10) 학원도착</span>
-                <span></span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* 7호차 노선 */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="rounded-2xl bg-white/70 dark:bg-white/10 border-2 border-white/30 shadow-xl backdrop-blur-2xl p-8 hover:shadow-glow hover:scale-[1.02] transition-all duration-500 mobile-card-spacing"
-          >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-2xl shadow-lg">
-                🚌
-              </div>
-              <h3 className="text-xl font-bold text-indigo-700 dark:text-sky-300">7호차 (방이역,올림픽공원역,둔촌역)</h3>
-            </div>
-            <div className="space-y-2 text-gray-700 dark:text-gray-200 text-sm">
-              <div className="flex justify-between">
-                <span>30) 학원출발</span>
-                <span>40) 근화제약상가앞</span>
-              </div>
-              <div className="flex justify-between">
-                <span>41) 신가초등학교</span>
-                <span>43) 방이역1번출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>45) 올림픽공원역1번출구</span>
-                <span>50) 둔촌역4번출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>52) GS주유소앞</span>
-                <span>55) 올림픽공원역3번출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>56) 벽제갈비도로변</span>
-                <span>57) 방이역3번출구</span>
-              </div>
-              <div className="flex justify-between">
-                <span>58) 송이공원입구</span>
-                <span>성지아파트앞 버스정류장</span>
-              </div>
-              <div className="flex justify-between">
-                <span>59) 가락아파트90동옆 버스정류장</span>
-                <span>00) 가락종합사회복지관앞</span>
-              </div>
-              <div className="flex justify-between">
-                <span>05) 수서역6번출구</span>
-                <span>10) 학원도착</span>
-              </div>
-            </div>
-          </motion.div>
+          <div className="grid md:grid-cols-2 gap-6 mt-8">
+            {shuttleRoutes.map((route, i) => (
+              <Fade key={i} delay={i * 0.1}>
+                <div className="premium-card p-6 group h-full">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400 font-bold text-sm group-hover:bg-brand-500/20 transition-colors">
+                      <Bus className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white">{route.name}</h3>
+                      <p className="text-xs text-navy-500">{route.route}</p>
+                    </div>
+                  </div>
+                  <ul className="space-y-2 mb-4">
+                    {route.stops.map((stop, si) => (
+                      <li key={si} className="flex items-center gap-2 text-sm text-navy-400">
+                        <div className="w-1.5 h-1.5 rounded-full bg-brand-500/50" />
+                        {stop}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="flex items-center gap-2 text-xs text-brand-400">
+                    <Clock className="w-3.5 h-3.5" />
+                    {route.time}
+                  </div>
+                </div>
+              </Fade>
+            ))}
+          </div>
         </div>
+      </section>
 
-        {/* 문의 정보 */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16 text-center rounded-2xl bg-gradient-to-br from-indigo-100 via-sky-100 to-lime-100 dark:from-white/10 dark:to-white/5 border-2 border-white/30 shadow-xl backdrop-blur-xl p-8 hover:shadow-glow hover:scale-[1.02] transition-all duration-500"
-        >
-          <div className="text-4xl mb-4 animate-float">📞</div>
-          <h3 className="text-xl font-bold text-indigo-700 dark:text-sky-300 mb-2">셔틀버스 문의</h3>
-          <p className="text-lg text-gray-700 dark:text-gray-200">
-            문의전화: (02) 481-6000
-          </p>
-          <p className="text-base text-gray-600 dark:text-gray-300 mt-2">
-            평일 07:30~18:20 / 토요일 07:30~16:20분까지 / 일.공휴일 : 셔틀운행안함
-          </p>
-        </motion.div>
-      </div>
+      {/* Location Info */}
+      <section className="section-padding relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-brand-950/20 to-navy-950" />
+        <div className="relative max-w-5xl mx-auto">
+          <Fade>
+            <p className="text-sm font-semibold tracking-widest uppercase text-brand-400 text-center mb-3">LOCATION</p>
+            <h2 className="section-title text-white">오시는 길</h2>
+          </Fade>
+
+          <Fade delay={0.1}>
+            <div className="premium-card p-8 sm:p-10 mt-8">
+              <div className="grid sm:grid-cols-2 gap-8">
+                <div className="flex items-start gap-4">
+                  <MapPin className="w-5 h-5 text-brand-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-navy-500 mb-1">주소</p>
+                    <p className="font-semibold text-white">서울시 강남구 헌릉로 733번(세곡동)</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <Phone className="w-5 h-5 text-brand-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-navy-500 mb-1">전화</p>
+                    <a href="tel:02-481-6000" className="font-semibold text-brand-300 hover:text-brand-200 transition-colors">02-481-6000</a>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <Bus className="w-5 h-5 text-brand-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-navy-500 mb-1">대중교통</p>
+                    <p className="font-semibold text-white">8호선 복정역 3번 출구 도보 10분</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <Clock className="w-5 h-5 text-brand-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-navy-500 mb-1">운영시간</p>
+                    <p className="font-semibold text-white">평일 07:30~18:20</p>
+                    <p className="text-sm text-navy-400">토 07:30~16:20 / 일·공휴일 휴무</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Fade>
+
+          {/* CTA */}
+          <Fade delay={0.2}>
+            <div className="text-center mt-12">
+              <Link to="/contact" className="btn-primary text-sm">
+                <Phone className="w-4 h-4" />
+                상담 예약하기
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </Fade>
+        </div>
+      </section>
     </div>
   );
 };
